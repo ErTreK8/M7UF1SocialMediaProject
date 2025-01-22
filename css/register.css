@@ -32,6 +32,12 @@ body {
     text-align: center;
 }
 
+.signup-container>img {
+    display: block;
+    justify-self: center;
+    width: 100px;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
@@ -93,8 +99,5 @@ body {
 @media (max-width: 600px) {
     .signup-container {
         background-color:transparent;
-    }
-    body {
-        background-color: #42424258;
     }
 }
