@@ -22,8 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_id'] = $user['IdUsr'];
                     $_SESSION['username'] = $user['nomUsuari'];
                     $_SESSION['email'] = $user['email'];
-                    
-                    header("Location: dashboard.php");
+                    header("Location: ./web/home.php");
                     exit;
                 } else {
                     echo "Contraseña erronea.";
@@ -40,6 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 else
 {
-    header("Location: ./web/home.php");
+    header("Location: ./index.html");
 }
 ?>
