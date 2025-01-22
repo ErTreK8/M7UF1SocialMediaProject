@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Sign Up Form</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="../css/register.css">
 </head>
 <body>
     <div class="signup-container">
-        <h1>Sign Up</h1>
+        <img src="../img/blanco.png" alt="logo carNation">
         <form action="register.php" method="post">
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Usuari</label>
                 <input type="text" id="username" name="username" placeholder="Choose a username" required>
             </div>
             <div class="form-group">
@@ -19,17 +19,17 @@
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Contrasenya</label>
                 <input type="password" id="password" name="password" placeholder="Create a password" required>
             </div>
             <div class="form-group">
-                <label for="verify_password">Verify Password</label>
+                <label for="verify_password">Verifica contraseña</label>
                 <input type="password" id="verify_password" name="verify_password" placeholder="Verify your password" required>
             </div>
             <button type="submit" class="signup-btn">Sign Up</button>
         </form>
         <div class="secondary-section">
-            Already have an account? <a href="../index.php">Login</a>
+            Ja tens una compta? <a href="../index.php">Login</a>
         </div>
     </div>
 </body>

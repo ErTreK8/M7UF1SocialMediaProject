@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="login-container">
-        <h1>Login</h1>
+        <img src="./img/blanco.png" alt="logo carNation">
         <form action="#" method="post">
             <div class="form-group">
                 <label for="username">Usuari / Email</label>
