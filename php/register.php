@@ -10,22 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $defaultImagePath = '../img/defaultpfp.webp';
     $profilePhoto = null;
 
-    // mirar si las contraseñas coinciden
     if ($password !== $verifyPassword) {
-        echo "Les contrasenyes no coincideixen.";
+        echo "Las contraseñas no coinciden.";
         exit;
     }
 
-    // imagen a Base64
+    // Imagen a Base64
     if (file_exists($defaultImagePath)) {
         $imageData = file_get_contents($defaultImagePath);
         $profilePhoto = base64_encode($imageData);
     } else {
-        echo "Error: No s'ha trobat la imatge predeterminada.";
+        echo "Error: No se ha encontrado la imagen predeterminada.";
         exit;
     }
 
-    // mirar si existe etc
+    // Verificaciones
     if (!empty($username) && !empty($email) && !empty($password)) {
         try {
             $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsuari = :username OR email = :email');
@@ -35,9 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $exists = $query->fetchColumn();
 
             if ($exists > 0) {
-                echo "Aquest usuari o email ja existeix.";
+                echo "Este usuario o email ya existe.";
                 exit;
             }
+
+            // Encriptar la contra
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $insertQuery = $db->prepare(
                 'INSERT INTO Usuario (nomUsuari, password, fotoPerfil, email) 
@@ -45,22 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             $insertQuery->bindParam(':username', $username, PDO::PARAM_STR);
-            $insertQuery->bindParam(':password', $password, PDO::PARAM_STR); 
+            $insertQuery->bindParam(':password', $hashedPassword, PDO::PARAM_STR); 
             $insertQuery->bindParam(':profilePhoto', $profilePhoto, PDO::PARAM_LOB);
             $insertQuery->bindParam(':email', $email, PDO::PARAM_STR);
-
+            //todo bien
             if ($insertQuery->execute()) {
-                echo "Usuari creat correctament!";
+                echo "Usuario creado correctamente!";
                 header('Location: ../index.html'); 
                 exit;
             } else {
-                echo "Error en crear l'usuari.";
+                echo "Error al crear el usuario.";
             }
         } catch (PDOException $e) {
-            echo 'Error amb la base de dades: ' . $e->getMessage();
+            echo 'Error con la base de datos: ' . $e->getMessage();
         }
     } else {
-        echo "Si us plau, omple tots els camps obligatoris.";
+        echo "Por favor, completa todos los campos obligatorios.";
     }
 }
 ?>

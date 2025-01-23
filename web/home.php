@@ -1,3 +1,7 @@
+<?php
+    require_once '../php/comprobar_Login.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,6 +11,6 @@
         <link rel="stylesheet" href="../css/register.css">
     </head>
     <body>
-        
+        <a href="../php/logout.php">Cerrar Sssion</a>
     </body>
 </html>
