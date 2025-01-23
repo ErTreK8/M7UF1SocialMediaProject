@@ -29,7 +29,21 @@
             <button type="submit" class="signup-btn">Sign Up</button>
         </form>
         <div class="secondary-section">
-            Ja tens una compte? <a href="../index.html">Login</a>
+            Ja tens una compte? <a href="../index.php">Login</a>
+        </div>
+        <div>
+            <?php 
+                session_start();
+                if (isset($_SESSION['error_message'])) {
+                    echo "<h1>" . $_SESSION['error_message'] . "</h1>";
+                    unset($_SESSION['error_message']);
+                }
+                
+                if (isset($_SESSION['success_message'])) {
+                    echo "<h1>" . $_SESSION['success_message'] . "</h1>";
+                    unset($_SESSION['success_message']);
+                }
+            ?>
         </div>
     </div>
 </body>

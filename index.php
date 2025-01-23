@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: ./web/home.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,8 +29,21 @@
             <button type="submit" class="login-btn">Login</button>
         </form>
         <div class="secondary-section">
-            No tens una compta encara? <a href="./web/register.html">Sign Up</a>
+            No tens una compta encara? <a href="./web/register.php">Sign Up</a>
+            <br><br>
+            <?php 
+                if (isset($_SESSION['error_message'])) {
+                    echo "<h1>" . $_SESSION['error_message'] . "</h1>";
+                    unset($_SESSION['error_message']);
+                }
+                
+                if (isset($_SESSION['success_message'])) {
+                    echo "<h1>" . $_SESSION['success_message'] . "</h1>";
+                    unset($_SESSION['success_message']);
+                }
+            ?>
         </div>
+
     </div>
 </body>
 </html>

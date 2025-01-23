@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'conecta_db_persistent.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -10,8 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $defaultImagePath = '../img/defaultpfp.webp';
     $profilePhoto = null;
 
+    // Verificar contra
     if ($password !== $verifyPassword) {
-        echo "Las contraseñas no coinciden.";
+        $_SESSION['error_message'] = "Las contraseñas no coinciden.";
+        header('Location: ../web/register.php');
         exit;
     }
 
@@ -20,11 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imageData = file_get_contents($defaultImagePath);
         $profilePhoto = base64_encode($imageData);
     } else {
-        echo "Error: No se ha encontrado la imagen predeterminada.";
+        $_SESSION['error_message'] = "Error: No se ha encontrado la imagen predeterminada.";
+        header('Location: ../web/register.php');
         exit;
     }
 
-    // Verificaciones
+    // Verificar campos
     if (!empty($username) && !empty($email) && !empty($password)) {
         try {
             $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsuari = :username OR email = :email');
@@ -34,35 +38,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $exists = $query->fetchColumn();
 
             if ($exists > 0) {
-                echo "Este usuario o email ya existe.";
+                $_SESSION['error_message'] = "Este Usuario o email ya existe.";
+                header('Location: ../web/register.php');
                 exit;
             }
 
-            // Encriptar la contra
+            // Encriptar coso
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $creationDate = date('Y-m-d H:i:s');
 
             $insertQuery = $db->prepare(
-                'INSERT INTO Usuario (nomUsuari, password, fotoPerfil, email) 
-                 VALUES (:username, :password, :profilePhoto, :email)'
+                'INSERT INTO Usuario (nomUsuari, password, fotoPerfil, email, creationDate, active) 
+                 VALUES (:username, :password, :profilePhoto, :email, :creationDate, :active)'
             );
+
+            $active = 1; 
 
             $insertQuery->bindParam(':username', $username, PDO::PARAM_STR);
             $insertQuery->bindParam(':password', $hashedPassword, PDO::PARAM_STR); 
             $insertQuery->bindParam(':profilePhoto', $profilePhoto, PDO::PARAM_LOB);
             $insertQuery->bindParam(':email', $email, PDO::PARAM_STR);
-            //todo bien
+            $insertQuery->bindParam(':creationDate', $creationDate, PDO::PARAM_STR);
+            $insertQuery->bindParam(':active', $active, PDO::PARAM_INT);
+
             if ($insertQuery->execute()) {
-                echo "Usuario creado correctamente!";
-                header('Location: ../index.html'); 
+                $_SESSION['success_message'] = "Registro Correcto";
+                header('Location: ../index.php'); 
                 exit;
             } else {
-                echo "Error al crear el usuario.";
+                $_SESSION['error_message'] = "Error al crear el usuario.";
+                header('Location: ../web/register.php');
+                exit;
             }
         } catch (PDOException $e) {
-            echo 'Error con la base de datos: ' . $e->getMessage();
+            $_SESSION['error_message'] = 'Error con la base de datos: ' . $e->getMessage();
+            header('Location: ../web/register.php');
+            exit;
         }
     } else {
-        echo "Por favor, completa todos los campos obligatorios.";
+        $_SESSION['error_message'] = "Por favor, completa todos los campos obligatorios.";
+        header('Location: ../web/register.php');
+        exit;
     }
 }
 ?>
