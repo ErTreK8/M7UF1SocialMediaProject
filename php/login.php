@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($username) && !empty($password)) {
         try {
             // Verificar usuario
-            $query = $db->prepare('SELECT * FROM Usuario WHERE (nomUsuari = :username OR email = :username) AND active = 1');
+            $query = $db->prepare('SELECT * FROM Usuario WHERE (nomUsari = :username OR email = :username) AND active = 1');
             $query->bindParam(':username', $username, PDO::PARAM_STR);
             $query->execute();
             
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // guardar cosos en la sesion
                     $_SESSION['user_id'] = $user['IdUsr'];
-                    $_SESSION['username'] = $user['nomUsuari'];
+                    $_SESSION['username'] = $user['nomUsari'];
                     $_SESSION['email'] = $user['email'];
                     header("Location: ../web/home.php");
                     exit;

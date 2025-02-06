@@ -1,5 +1,5 @@
 <?php
-$cadena_connexio = 'mysql:dbname=m7redsocial;host=localhost:3335';
+$cadena_connexio = 'mysql:dbname=m7redsocial2;host=localhost:3335';
 $usuari = 'root';
 $passwd = '';
 try {

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificar campos
     if (!empty($username) && !empty($email) && !empty($password)) {
         try {
-            $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsuari = :username OR email = :email');
+            $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsari = :username OR email = :email');
             $query->bindParam(':username', $username, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->execute();
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $creationDate = date('Y-m-d H:i:s');
 
             $insertQuery = $db->prepare(
-                'INSERT INTO Usuario (nomUsuari, password, fotoPerfil, email, creationDate, active) 
+                'INSERT INTO Usuario (nomUsari, password, fotoPerfil, email, creationDate, active) 
                  VALUES (:username, :password, :profilePhoto, :email, :creationDate, :active)'
             );
 
