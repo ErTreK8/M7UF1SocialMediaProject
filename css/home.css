@@ -7,6 +7,7 @@
 
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -26,8 +27,11 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    align-self: end;
     margin-bottom: 5vh;
     text-decoration: none;
     text-align: center;
+}
+
+h1{
+    color: white;
 }
