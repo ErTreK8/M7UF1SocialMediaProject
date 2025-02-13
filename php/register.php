@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once 'conecta_db_persistent.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -8,77 +13,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password']);
     $verifyPassword = trim($_POST['verify_password']);
 
-    $defaultImagePath = '../img/defaultpfp.webp';
-    $profilePhoto = null;
-
-    // Verificar contra
     if ($password !== $verifyPassword) {
         $_SESSION['error_message'] = "Las contraseñas no coinciden.";
         header('Location: ../web/register.php');
         exit;
     }
 
-    // Imagen a Base64
-    if (file_exists($defaultImagePath)) {
-        $imageData = file_get_contents($defaultImagePath);
-        $profilePhoto = base64_encode($imageData);
-    } else {
-        $_SESSION['error_message'] = "Error: No se ha encontrado la imagen predeterminada.";
-        header('Location: ../web/register.php');
-        exit;
-    }
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    
+    $activationCode = hash('sha256', random_bytes(64));
+    $creationDate = date('Y-m-d H:i:s');
+    $active = 0;
 
-    // Verificar campos
-    if (!empty($username) && !empty($email) && !empty($password)) {
-        try {
-            $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsari = :username OR email = :email');
-            $query->bindParam(':username', $username, PDO::PARAM_STR);
-            $query->bindParam(':email', $email, PDO::PARAM_STR);
-            $query->execute();
-            $exists = $query->fetchColumn();
-
-            if ($exists > 0) {
-                $_SESSION['error_message'] = "Este Usuario o email ya existe.";
-                header('Location: ../web/register.php');
-                exit;
-            }
-
-            // Encriptar coso
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $creationDate = date('Y-m-d H:i:s');
-
-            $insertQuery = $db->prepare(
-                'INSERT INTO Usuario (nomUsari, password, fotoPerfil, email, creationDate, active) 
-                 VALUES (:username, :password, :profilePhoto, :email, :creationDate, :active)'
-            );
-
-            $active = 1; 
-
-            $insertQuery->bindParam(':username', $username, PDO::PARAM_STR);
-            $insertQuery->bindParam(':password', $hashedPassword, PDO::PARAM_STR); 
-            $insertQuery->bindParam(':profilePhoto', $profilePhoto, PDO::PARAM_LOB);
-            $insertQuery->bindParam(':email', $email, PDO::PARAM_STR);
-            $insertQuery->bindParam(':creationDate', $creationDate, PDO::PARAM_STR);
-            $insertQuery->bindParam(':active', $active, PDO::PARAM_INT);
-
-            if ($insertQuery->execute()) {
-                $_SESSION['success_message'] = "Registro Correcto";
-                header('Location: ../index.php'); 
-                exit;
-            } else {
-                $_SESSION['error_message'] = "Error al crear el usuario.";
-                header('Location: ../web/register.php');
-                exit;
-            }
-        } catch (PDOException $e) {
-            $_SESSION['error_message'] = 'Error con la base de datos: ' . $e->getMessage();
+    try {
+        $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsari = :username OR email = :email');
+        $query->execute([':username' => $username, ':email' => $email]);
+        if ($query->fetchColumn() > 0) {
+            $_SESSION['error_message'] = "Este Usuario o email ya existe.";
             header('Location: ../web/register.php');
             exit;
         }
-    } else {
-        $_SESSION['error_message'] = "Por favor, completa todos los campos obligatorios.";
+
+        $insertQuery = $db->prepare(
+            'INSERT INTO Usuario (nomUsari, password, email, creationDate, active, activationCode) 
+             VALUES (:username, :password, :email, :creationDate, :active, :activationCode)'
+        );
+
+        $insertQuery->execute([
+            ':username' => $username,
+            ':password' => $hashedPassword,
+            ':email' => $email,
+            ':creationDate' => $creationDate,
+            ':active' => $active,
+            ':activationCode' => $activationCode
+        ]);
+
+        // enlace de activación
+        $activationLink = "http://localhost/Proyecto/M7UF1SocialMediaProject/php/mailCheckAccount.php?code=$activationCode&mail=$email";
+
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'eric.garciag@educem.net';
+        $mail->Password = 'hnbj woau zegg biyg';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        $mail->setFrom('eric.garciag@educem.net', 'Car Nation');
+        $mail->addAddress($email);
+        $mail->isHTML(true);
+        $mail->Subject = 'Activa tu cuenta';
+        $mail->Body = "<h1>Bienvenido, $username</h1>
+                       <p>Por favor, activa tu cuenta haciendo clic en el siguiente enlace:</p>
+                       <a href='$activationLink'>Activar cuenta</a>";
+
+        $mail->send();
+        $_SESSION['success_message'] = "Registro correcto. Revisa tu correo electrónico para activarlo.";
+        header('Location: ../index.php');
+    } catch (Exception $e) {
+        $_SESSION['error_message'] = 'Error al enviar el correo: ' . $mail->ErrorInfo;
         header('Location: ../web/register.php');
-        exit;
     }
 }
 ?>

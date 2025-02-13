@@ -29,8 +29,9 @@ if (isset($_SESSION['user_id'])) {
             <button type="submit" class="login-btn">Login</button>
         </form>
         <div class="secondary-section">
-            No tens una compta encara? <a href="./web/register.php">Sign Up</a>
-            <br><br>
+            No tens una compta encara? <a href="./web/register.php">Sign Up</a><br>
+            <p><a href="./web/cambiarContrasena.html">¿Has olvidado tu contraseña?</a></p>
+            <br>
             <?php 
                 if (isset($_SESSION['error_message'])) {
                     echo "<h1>" . $_SESSION['error_message'] . "</h1>";
