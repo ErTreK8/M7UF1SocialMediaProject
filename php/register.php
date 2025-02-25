@@ -65,11 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail->setFrom('eric.garciag@educem.net', 'Car Nation');
         $mail->addAddress($email);
+        $mail->AddEmbeddedImage('../img/negro.png', 'logo' , 'negro.png');
         $mail->isHTML(true);
         $mail->Subject = 'Activa tu cuenta';
         $mail->Body = "<h1>Bienvenido, $username</h1>
                        <p>Por favor, activa tu cuenta haciendo clic en el siguiente enlace:</p>
-                       <a href='$activationLink'>Activar cuenta</a>";
+                       <a href='$activationLink'>Activar cuenta</a>
+                       <img alt='PHPMailer' src='cid:logo'>";
+
 
         $mail->send();
         $_SESSION['success_message'] = "Registro correcto. Revisa tu correo electrónico para activarlo.";

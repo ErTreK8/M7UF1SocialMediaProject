@@ -27,11 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $mail->setFrom('eric.garciag@educem.net', 'Car Nation');
     $mail->addAddress($email);
+    $mail->AddEmbeddedImage('../img/negro.png', 'logo', 'negro.png');
     $mail->isHTML(true);
     $mail->Subject = 'Restablecimiento de contrasena';
     $mail->Body = "<h1>Recuperación de contraseña</h1>
                    <p>Para restablecer tu contraseña, haz clic en el siguiente enlace antes de que expire:</p>
-                   <a href='$resetLink'>Restablecer contraseña</a>";
+                   <a href='$resetLink'>Restablecer contraseña</a>
+                   <img alt='PHPMailer' src='cid:logo'>";
 
     $mail->send();
     $_SESSION['success_message'] = "Correo de recuperación enviado.";
