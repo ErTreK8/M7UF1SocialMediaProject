@@ -1,4 +1,4 @@
-<?php 
+<?php
     require_once '../php/comprobar_Login.php';
 ?>
 
@@ -13,5 +13,6 @@
     <body>
         <h1 style="color: White;">BENVINGUT <?php echo $_SESSION["username"] ?></h1>
         <a href="../php/logout.php" class="logout-btn">Logout</a>
+        <a href="./perfil.php" class="logout-btn">Perfil</a>
     </body>
 </html>

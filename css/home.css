@@ -17,8 +17,9 @@ body {
 }
 
 .logout-btn{
-    display: block;
-    width: 5em;
+    /* display: flex; */
+    max-width: 10em;
+    min-width: 5em;
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -30,8 +31,54 @@ body {
     margin-bottom: 5vh;
     text-decoration: none;
     text-align: center;
+    vertical-align: bottom;
 }
 
-h1{
+/* .text{
     color: white;
+} */
+
+.cajachula {
+    width: 70%;
+    min-width: 500px;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#cajaFotoUsuari>img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    margin-bottom: 10px;
+}
+
+.text {
+    font-size: 14px;
+    color: #ffffff;
+    margin: 5px 0;
+}
+
+.cajachula .text strong {
+    color: #007bff;
+}
+
+main{
+    height: 80%;
+}
+#botonEdicion{
+    display:flex;
+    position: relative;
+    left: 70%;
+    flex-direction: row;
+    gap: 10px;
+    text-decoration: none;
+}
+#cajaFotoUsuari{
+    display: flex;
 }

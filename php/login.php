@@ -9,10 +9,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($username) && !empty($password)) {
         try {
             // Verificar usuario
-            $query = $db->prepare('SELECT * FROM Usuario WHERE (nomUsari = :username OR email = :username) AND active = 1');
+            $query = $db->prepare('SELECT 
+                u.*, 
+                c.nomCiutat, 
+                co.nomComarca, 
+                ca.nomComunidad
+            FROM Usuario u
+            LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
+            LEFT JOIN Comarca co ON c.idComarca = co.idComarca
+            LEFT JOIN ComunidadAutonoma ca ON co.idComunidad = ca.idComunidad
+            WHERE (u.nomUsari = :username OR u.email = :username) 
+            AND u.active = 1');
+            
             $query->bindParam(':username', $username, PDO::PARAM_STR);
             $query->execute();
-            
+
             $user = $query->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
@@ -30,6 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_id'] = $user['IdUsr'];
                     $_SESSION['username'] = $user['nomUsari'];
                     $_SESSION['email'] = $user['email'];
+                    $_SESSION['image'] = $user['fotoPerfil'];
+                    $_SESSION['name'] = $user['nom'];
+                    $_SESSION['yearsold'] = $user['edad'];
+                    $_SESSION['lastname'] = $user['cognom'];
+                    $_SESSION['tlf'] = $user['telefon'];
+                    $_SESSION['description'] = $user['descripcio'];
+                    $_SESSION['comarca'] = $user['nomComarca'];
+                    $_SESSION['ciutat'] = $user['nomCiutat'];
+                    $_SESSION['nomComunitat'] = $user['nomComunidad'];
                     header("Location: ../web/home.php");
                     exit;
                 } else {
