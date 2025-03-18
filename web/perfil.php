@@ -1,6 +1,6 @@
 <?php 
     // require_once '../php/comprobar_Login.php';
-    // require_once '../php/carregarPerfil.php';
+    //require_once '../php/carregarPerfil.php';
     session_start();
 ?>
 

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../php/conecta_db_persistent.php';
 require_once '../php/comprobar_Login.php';
 
@@ -19,11 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $tlf = trim($_POST['tlf']);
     $description = trim($_POST['description']);
+    $ciudad = trim($_POST['ciudad']);
 
     if (!empty($name) && !empty($lastname) && !empty($email) && !empty($tlf)) {
         try {
             $updateQuery = $db->prepare("UPDATE Usuario 
-                SET nom = :name, cognom = :lastname, email = :email, telefon = :tlf, descripcio = :description 
+                SET nom = :name, cognom = :lastname, email = :email, telefon = :tlf, descripcio = :description, idCIutat = :ciudad 
                 WHERE IdUsr = :user_id");
 
             $updateQuery->bindParam(':name', $name, PDO::PARAM_STR);
@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updateQuery->bindParam(':email', $email, PDO::PARAM_STR);
             $updateQuery->bindParam(':tlf', $tlf, PDO::PARAM_STR);
             $updateQuery->bindParam(':description', $description, PDO::PARAM_STR);
+            $updateQuery->bindParam(':ciudad', $ciudad, PDO::PARAM_INT);
             $updateQuery->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $updateQuery->execute();
 
@@ -40,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $email;
             $_SESSION['tlf'] = $tlf;
             $_SESSION['description'] = $description;
+            $_SESSION['ciudad'] = $ciudad;
 
             $_SESSION['success_message'] = "Perfil actualizado correctamente.";
             header("Location: perfil.php");
@@ -57,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Obtener datos del usuario para mostrar en el formulario
-$query = $db->prepare("SELECT nom, cognom, email, telefon, descripcio, fotoPerfil FROM Usuario WHERE IdUsr = :user_id");
+$query = $db->prepare("SELECT nom, cognom, email, telefon, descripcio, fotoPerfil, idCIutat FROM Usuario WHERE IdUsr = :user_id");
 $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $query->execute();
 $user = $query->fetch(PDO::FETCH_ASSOC);
@@ -66,6 +68,15 @@ if (!$user) {
     $_SESSION['error_message'] = "Usuario no encontrado.";
     header("Location: home.php");
     exit;
+}
+
+// Obtener las ciudades ordenadas alfabéticamente
+try {
+    $ciudadesQuery = $db->query("SELECT idCIutat, nomCiutat FROM ciutat ORDER BY nomCiutat ASC");
+    $ciudades = $ciudadesQuery->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $_SESSION['error_message'] = "Error al obtener las ciudades: " . $e->getMessage();
+    $ciudades = []; // Si hay un error, inicializa $ciudades como un array vacío
 }
 ?>
 
@@ -118,6 +129,21 @@ if (!$user) {
             <label class="text" for="description">Descripción:</label>
             <br>
             <textarea id="description" name="description"><?php echo htmlspecialchars($user['descripcio']); ?></textarea>
+            <br><br>
+
+            <label class="text" for="ciudad">Ciudad:</label>
+            <br>
+            <select id="ciudad" name="ciudad" required>
+                <?php if (!empty($ciudades)): ?>
+                    <?php foreach ($ciudades as $ciudad): ?>
+                        <option value="<?php echo $ciudad['idCIutat']; ?>" <?php echo ($ciudad['idCIutat'] == $user['idCIutat']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($ciudad['nomCiutat']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <option value="">No hay ciudades disponibles</option>
+                <?php endif; ?>
+            </select>
             <br><br>
 
             <button class="logout-btn" type="submit">Guardar Cambios</button>
