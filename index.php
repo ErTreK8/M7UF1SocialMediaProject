@@ -30,7 +30,7 @@ if (isset($_SESSION['user_id'])) {
         </form>
         <div class="secondary-section">
             No tens una compta encara? <a href="./web/register.php">Sign Up</a><br>
-            <p><a href="./web/cambiarContrasena.html">¿Has olvidado tu contraseña?</a></p>
+            <p><a href="./web/cambiarContrasena.php">¿Has olvidado tu contraseña?</a></p>
             <br>
             <?php
                 if (isset($_SESSION['error_message'])) {

@@ -57,7 +57,14 @@ body {
     border: 3px solid #007bff;
     margin-bottom: 10px;
 }
-
+#cajaFotoUsuariEdit>img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    margin-bottom: 10px;
+}
 .text {
     font-size: 14px;
     color: #ffffff;
@@ -81,4 +88,8 @@ main{
 }
 #cajaFotoUsuari{
     display: flex;
+}
+#cajaFotoUsuariEdit{
+    display: block;
+    
 }
