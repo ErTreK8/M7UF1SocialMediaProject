@@ -11,8 +11,6 @@ if (isset($_SESSION['user_id'])) {
                 ca.nomComunidad
             FROM Usuario u
             LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
-            LEFT JOIN Comarca co ON c.idComarca = co.idComarca
-            LEFT JOIN ComunidadAutonoma ca ON co.idComunidad = ca.idComunidad
             WHERE (u.nomUsari = :username OR u.email = :username) 
             AND u.active = 1');
             
@@ -42,9 +40,7 @@ if (isset($_SESSION['user_id'])) {
                     $_SESSION['lastname'] = $user['cognom'];
                     $_SESSION['tlf'] = $user['telefon'];
                     $_SESSION['description'] = $user['descripcio'];
-                    $_SESSION['comarca'] = $user['nomComarca'];
                     $_SESSION['ciutat'] = $user['nomCiutat'];
-                    $_SESSION['nomComunitat'] = $user['nomComunidad'];
                 // }
                 // exit;
             }
