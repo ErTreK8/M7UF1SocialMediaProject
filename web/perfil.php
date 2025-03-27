@@ -1,6 +1,7 @@
 <?php 
-    // session_start();
-    require_once '../php/carregarPerfil.php';
+    // require_once '../php/comprobar_Login.php';
+    //require_once '../php/carregarPerfil.php';
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +25,13 @@
                 </div>
                 <p class="text"><?php echo (empty($_SESSION["description"])) ? "Descripció: " : $_SESSION["description"]; ?></p>
                 <p class="text">Edat: <?php echo $_SESSION["yearsold"] ?></p>
-                <p class="text">Ubicacio: <?php if(isset($_SESSION["comunitat"])) echo $_SESSION["comunitat"] + "/" + $_SESSION["comarca"] + "/" + $_SESSION["ciutat"] ?></p>
+                <?php 
+                    if(!empty($_SESSION["comunitat"])&& !empty($_SESSION["comarca"]) && !empty($_SESSION["ciutat"]) )
+                    {
+                        echo '<p class="text">Ubicacio: ' + $_SESSION["comunitat"] + "/" + $_SESSION["comarca"] + "/" + $_SESSION["ciutat"] + '</p>';
+                    }
+                    else echo '<p class="text">Ubicacio no especificada </p>';
+                ?>
             </div>
         </main>
         <footer>
