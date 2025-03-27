@@ -2,7 +2,7 @@
 session_start();
 require_once '../php/conecta_db_persistent.php';
 require_once '../php/comprobar_Login.php';
-
+require_once '../php/carregarPerfil.php';
 
 // Obtener ID de usuario desde la sesión
 if (!isset($_SESSION['user_id'])) {
@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $tlf = trim($_POST['tlf']);
     $description = trim($_POST['description']);
+    $ciutat = trim($_POST['ciutat']);
 
     if (!empty($name) && !empty($lastname) && !empty($email) && !empty($tlf)) {
         try {
@@ -129,6 +130,18 @@ if (!$user) {
             <textarea id="description" name="description"><?php echo htmlspecialchars($user['descripcio']); ?></textarea>
             <br><br>
 
+            <label class="text" for="ciutat">Ciutat:</label>
+            <br>
+            <select id="miCombo" name="miCombo">
+                <option value="">-- Selecciona --</option>
+                <?php foreach ($ciutats as $row): ?>
+                    <option value="<?php echo htmlspecialchars($row["idCiutat"]); ?>" 
+                        <?php echo ($row["nomCiutat"] == $_SESSION['ciutat']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($row["nomCiutat"]); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <br><br>
             <button class="logout-btn" type="submit">Guardar Cambios</button>
         </form>
     </div>

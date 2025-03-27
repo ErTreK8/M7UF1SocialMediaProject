@@ -6,19 +6,25 @@ if (isset($_SESSION['user_id'])) {
     $username = $_SESSION['username'];
     $query = $db->prepare('SELECT 
                 u.*, 
-                c.nomCiutat,
-                co.nomComarca, 
-                ca.nomComunidad
+                c.nomCiutat
             FROM Usuario u
             LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
             WHERE (u.nomUsari = :username OR u.email = :username) 
             AND u.active = 1');
             
-            $query->bindParam(':username', $username, PDO::PARAM_STR);
-            $query->execute();
+    $query->bindParam(':username', $username, PDO::PARAM_STR);
+    $query->execute();
 
-            $user = $query->fetch(PDO::FETCH_ASSOC);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
 
+    $query = null;
+
+    $query = $db->prepare('SELECT * FROM Ciutat');
+
+    // $query->bindParam(':username', $username, PDO::PARAM_STR);
+    $query->execute();
+
+    $ciutats = $query->fetchAll(PDO::FETCH_ASSOC);
             if ($user) {
                 // Verificar contra
                 // if ($_SESSION['user_id'] == $user['user_id']) { 
@@ -40,7 +46,7 @@ if (isset($_SESSION['user_id'])) {
                     $_SESSION['lastname'] = $user['cognom'];
                     $_SESSION['tlf'] = $user['telefon'];
                     $_SESSION['description'] = $user['descripcio'];
-                    $_SESSION['ciutat'] = $user['nomCiutat'];
+                    $_SESSION['ciutat'] = $ciutats['nomCiutat'];
                 // }
                 // exit;
             }
