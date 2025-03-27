@@ -1,0 +1,119 @@
+/* Fondo oscuro para toda la página */
+body {
+    background-color: #121212;
+    color: #ddd;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el título, ahora más grande y con más espacio arriba */
+h1.text {
+    text-align: center;
+    color: #fff;
+    margin-top: 50px; /* Más espacio arriba */
+    font-size: 36px; /* Título más grande */
+}
+
+/* Mensajes de error y éxito */
+.message {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+/* Caja que contiene todo el formulario */
+.cajachula {
+    width: 60%; /* Reduce el tamaño del formulario */
+    max-width: 500px; /* Tamaño máximo más pequeño */
+    margin: 40px auto; /* Añadir más espacio arriba y abajo */
+    padding: 15px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Imagen de perfil */
+#cajaFotoUsuari {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#fotoPerfilPreview {
+    width: 100px; /* Imagen más pequeña */
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ddd;
+}
+
+/* Estilo para los campos de formulario */
+label.text {
+    color: #ccc;
+    font-size: 14px; /* Etiquetas más pequeñas */
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px; /* Reducción de padding para hacer los campos más pequeños */
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #222;
+    color: #fff;
+}
+
+textarea {
+    resize: vertical;
+    height: 80px; /* Hacer el área de texto más pequeña */
+}
+
+/* Estilo para el botón */
+button.logout-btn {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px; /* Botón más pequeño */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px; /* Fuente más pequeña */
+    width: 100%;
+}
+
+button.logout-btn:hover {
+    background-color: #4cae4c;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* Estilo de los bordes y márgenes */
+form {
+    padding: 10px;
+    margin-top: 20px;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    max-width: 450px; /* Ancho máximo más pequeño */
+    margin: 5px 0;
+}

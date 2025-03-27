@@ -11,7 +11,6 @@ try {
         // echo '<pre>';.
         // echo "Connexió establerta! \n ";
         // echo '</pre>';
-        echo 'Connexió establerta!<br>';
     }
 
 } catch (PDOException $e) {
