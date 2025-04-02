@@ -1,0 +1,80 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #000; /* Color negro para el texto general */
+}
+
+h1 {
+    color: #000; /* Título principal en negro */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #007bff; /* Enlaces mantienen su color azul */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.cajachula {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #000; /* Texto dentro del formulario en negro */
+}
+.blanco{
+    color: #ffffff;
+}
+
+.text {
+    font-size: 18px;
+    color: #000; /* Etiquetas y texto en negro */
+}
+
+textarea, input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #000; /* Texto dentro de los campos de entrada en negro */
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    color: #000; /* Mensajes de error/éxito en negro */
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24; /* Mantener el color rojo para errores */
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724; /* Mantener el color verde para éxitos */
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #0056b3;
+}

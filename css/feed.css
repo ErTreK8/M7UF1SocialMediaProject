@@ -1,0 +1,132 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333; /* Color principal del texto */
+}
+
+h1 {
+    color: #2c3e50; /* Azul oscuro para el título principal */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #007bff; /* Azul para los enlaces */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 800px; /* Ancho máximo para los posts */
+    margin: 0 auto; /* Centrar los posts horizontalmente */
+}
+
+.post-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #333; /* Color del texto dentro de los posts */
+    width: 100%; /* Asegurarse de que ocupe todo el ancho del contenedor */
+}
+
+.post-header h3 {
+    color: #2c3e50; /* Azul oscuro para los títulos de los posts */
+    margin-bottom: 10px;
+}
+
+.post-content p {
+    color: #555; /* Gris oscuro para la descripción */
+    line-height: 1.6;
+}
+
+.post-media {
+    margin-bottom: 20px;
+}
+
+.carousel {
+    width: 100%;
+    max-width: 600px; /* Ancho máximo del carrousel */
+    margin: 0 auto; /* Centrar el carrousel */
+}
+
+.slider {
+    width: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    max-height: 400px; /* Tamaño máximo de altura */
+}
+
+.comments-section h4 {
+    color: #2c3e50; /* Azul oscuro para el título de comentarios */
+    margin-bottom: 10px;
+}
+
+.comment {
+    margin-bottom: 10px;
+    color: #333; /* Color del texto de los comentarios */
+}
+
+.comment strong {
+    color: #2c3e50; /* Azul oscuro para el nombre del usuario */
+}
+
+.comment-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333; /* Color del texto en el campo de entrada */
+}
+
+.comment-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos generales para imágenes y videos */
+.post-media img,
+.post-media video,
+.post-media audio {
+    max-width: 100%;
+    max-height: 400px; /* Tamaño máximo de altura */
+    margin-bottom: 20px;
+}
+
+/* Estilos específicos para imágenes */
+.slide img {
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Estilos para reproductores */
+video,
+audio {
+    display: block;
+    margin: 0 auto;
+}
