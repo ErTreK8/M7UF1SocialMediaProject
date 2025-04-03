@@ -19,10 +19,9 @@ require_once '../php/carregarPerfil.php';
                 <img src="../img/circulo.png" width="30px">
             </a>
             <div id="cajaFotoUsuari">
-            <img src="<?php echo !empty($user['fotoPerfil']) ? htmlspecialchars($user['fotoPerfil']) : '../img/default-avatar.png'; ?>" 
-                    alt="Foto de usuario" id="fotoPerfilPreview" 
-                    style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer;">
-
+                <img src="<?php echo !empty($user['fotoPerfil']) ? htmlspecialchars($user['fotoPerfil']) : '../img/default-avatar.png'; ?>" 
+                     alt="Foto de usuario" id="fotoPerfilPreview" 
+                     style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer;">
                 <p class="text"><?php echo htmlspecialchars($user['nomUsari']); ?></p>
             </div>
             <p class="text"><strong>Nombre:</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
@@ -30,7 +29,7 @@ require_once '../php/carregarPerfil.php';
             <p class="text">
                 <?php echo (!empty($user['descripcio'])) ? htmlspecialchars($user['descripcio']) : "Descripción no especificada"; ?>
             </p>
-            <p class="text"><strong>Edad:</strong> <?php echo htmlspecialchars($user['edad']); ?></p>
+            <p class="text"><strong>Edad:</strong> <?php echo isset($user['edat']) ? htmlspecialchars($user['edat']) : 'No especificada'; ?></p>
             
             <?php 
                 if (!empty($user["Calle"]) || !empty($user["nomCiutat"])) {

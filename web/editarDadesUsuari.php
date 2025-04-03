@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tlf = trim($_POST['tlf']);
     $description = trim($_POST['description']);
     $ciudad = trim($_POST['ciudad']);
-    $edad = trim($_POST['edad']);
+    $edat = trim($_POST['edat']); // Cambiado de 'edad' a 'edat'
     $fotoPerfil = null;
 
     if (isset($_FILES['fotoPerfil']) && $_FILES['fotoPerfil']['error'] === UPLOAD_ERR_OK) {
@@ -45,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fotoPerfil = null; // No se subió imagen
     }
 
-    if (!empty($name) && !empty($lastname) && !empty($email) && !empty($tlf) && !empty($edad)) {
+    if (!empty($name) && !empty($lastname) && !empty($email) && !empty($tlf) && isset($edat)) {
         try {
             $updateQuery = $db->prepare("UPDATE Usuario 
                 SET nom = :name, cognom = :lastname, email = :email, telefon = :tlf, descripcio = :description, 
-                    idCiutat = :ciudad, edad = :edad" . ($fotoPerfil !== null ? ", fotoPerfil = :fotoPerfil" : "") . " 
+                    idCiutat = :ciudad, edat = :edat" . ($fotoPerfil !== null ? ", fotoPerfil = :fotoPerfil" : "") . " 
                 WHERE IdUsr = :user_id");
 
             $updateQuery->bindParam(':name', $name, PDO::PARAM_STR);
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updateQuery->bindParam(':tlf', $tlf, PDO::PARAM_STR);
             $updateQuery->bindParam(':description', $description, PDO::PARAM_STR);
             $updateQuery->bindParam(':ciudad', $ciudad, PDO::PARAM_INT);
-            $updateQuery->bindParam(':edad', $edad, PDO::PARAM_INT);
+            $updateQuery->bindParam(':edat', $edat, PDO::PARAM_INT); // Cambiado de 'edad' a 'edat'
             $updateQuery->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
             if ($fotoPerfil !== null) {
@@ -66,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $updateQuery->execute();
-
 
             header("Location: perfil.php?success=Perfil actualizado correctamente.");
             exit;
@@ -81,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Obtener los datos del usuario para mostrar en el formulario
-$query = $db->prepare("SELECT nom, cognom, email, telefon, descripcio, fotoPerfil, idCiutat, edad FROM Usuario WHERE IdUsr = :user_id");
+$query = $db->prepare("SELECT nom, cognom, email, telefon, descripcio, fotoPerfil, idCiutat, edat FROM Usuario WHERE IdUsr = :user_id");
 $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $query->execute();
 $user = $query->fetch(PDO::FETCH_ASSOC);
@@ -97,6 +96,7 @@ try {
     $ciudades = $ciudadesQuery->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $ciudades = [];
+    error_log("Error al obtener las ciudades: " . $e->getMessage());
 }
 ?>
 
@@ -108,7 +108,6 @@ try {
     <title>Editar Perfil</title>
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/modificarPerfi.css">
-
 </head>
 <body>
 
@@ -123,18 +122,17 @@ try {
     <?php endif; ?>
 
     <div class="cajachula">
-        
-
         <form action="editarDadesUsuari.php" method="POST" enctype="multipart/form-data">
-        <div id="cajaFotoUsuari">
-            <label for="fotoPerfilInput">
-                <img src="<?php echo !empty($user['fotoPerfil']) ? htmlspecialchars($user['fotoPerfil']) : '../img/default-avatar.png'; ?>" 
-                     alt="Foto de usuario" id="fotoPerfilPreview" 
-                     style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer;">
-            </label>
-            <input type="file" id="fotoPerfilInput" name="fotoPerfil" accept="image/*" style="display: none;">
-            <br><br>
+            <div id="cajaFotoUsuari">
+                <label for="fotoPerfilInput">
+                    <img src="<?php echo !empty($user['fotoPerfil']) ? htmlspecialchars($user['fotoPerfil']) : '../imgPerfil/generic.png'; ?>" 
+                         alt="Foto de usuario" id="fotoPerfilPreview" 
+                         style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer;">
+                </label>
+                <input type="file" id="fotoPerfilInput" name="fotoPerfil" accept="image/*" style="display: none;">
+                <br><br>
             </div>
+
             <label class="text" for="name">Nombre:</label>
             <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['nom']); ?>" required>
             <br><br>
@@ -151,22 +149,29 @@ try {
             <input type="text" id="tlf" name="tlf" value="<?php echo htmlspecialchars($user['telefon']); ?>" required>
             <br><br>
 
-            <label class="text" for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad" value="<?php echo htmlspecialchars($user['edad']); ?>" required>
+            <label class="text" for="edat">Edad:</label>
+            <input type="number" id="edat" name="edat" value="<?php echo isset($user['edat']) ? htmlspecialchars($user['edat']) : ''; ?>" required>
             <br><br>
 
             <label class="text" for="description">Descripción:</label>
             <textarea id="description" name="description"><?php echo htmlspecialchars($user['descripcio']); ?></textarea>
             <br><br>
+
             <label class="text" for="ciudad">Ciudad:</label>
             <select id="ciudad" name="ciudad" required>
-                <?php foreach ($ciudades as $ciudad): ?>
-                    <option value="<?php echo $ciudad['idCiutat']; ?>" <?php echo ($ciudad['idCiutat'] == $user['idCiutat']) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($ciudad['nomCiutat']); ?>
-                    </option>
-                <?php endforeach; ?>
+                <?php if (!empty($ciudades)): ?>
+                    <?php foreach ($ciudades as $ciudad): ?>
+                        <option value="<?php echo htmlspecialchars($ciudad['idCiutat']); ?>" 
+                            <?php echo ($ciudad['idCiutat'] == $user['idCiutat']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($ciudad['nomCiutat']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <option value="">No hay ciudades disponibles</option>
+                <?php endif; ?>
             </select>
             <br><br>
+
             <button class="logout-btn" type="submit">Guardar Cambios</button>
         </form>
     </div>
