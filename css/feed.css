@@ -130,3 +130,45 @@ audio {
     display: block;
     margin: 0 auto;
 }
+
+/* Estilos para el botón de like */
+.like-section {
+    text-align: right; /* Alinea el botón de like a la derecha */
+    margin-top: 10px;
+}
+
+.like-btn {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    font-size: 16px; /* Tamaño de fuente */
+    color: #ff4d4d; /* Color rojo para el corazón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: color 0.3s ease; /* Animación suave al cambiar el color */
+}
+
+.like-btn:hover {
+    color: #ff1744; /* Color rojo más intenso al pasar el ratón */
+}
+
+.like-btn svg {
+    vertical-align: middle; /* Alinea el icono correctamente */
+    margin-right: 5px; /* Espacio entre el icono y el texto */
+}
+
+.like-btn span {
+    font-weight: bold; /* Texto en negrita */
+    font-size: 14px; /* Tamaño del texto */
+    color: #555; /* Color del texto */
+}
+
+/* Estilo cuando el usuario ha dado like (corazón relleno) */
+.like-btn.liked {
+    color: #ff1744; /* Corazón rojo intenso */
+}
+
+/* Botones de like en comentarios */
+.comment .like-btn {
+    margin-left: 10px; /* Espacio entre el comentario y el botón de like */
+    font-size: 14px; /* Tamaño reducido para los likes en comentarios */
+}
+

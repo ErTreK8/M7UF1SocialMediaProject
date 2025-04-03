@@ -26,7 +26,7 @@ $comments = $commentsQuery->fetchAll(PDO::FETCH_ASSOC);
 // Organizar los comentarios por idPost
 $commentsByPost = [];
 foreach ($comments as $comment) {
-    $postId = $comment['IdPost'];
+    $postId = $comment['idPost'];
     if (!isset($commentsByPost[$postId])) {
         $commentsByPost[$postId] = [];
     }
@@ -45,6 +45,7 @@ foreach ($comments as $comment) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="../js/comments.js"></script>
 </head>
 <body>
 
@@ -58,7 +59,6 @@ foreach ($comments as $comment) {
                 <h3><?php echo htmlspecialchars($post['titol']); ?></h3>
             </div>
             <div class="post-content">
-                <p><?php echo htmlspecialchars($post['descripcio']); ?></p>
 
                 <!-- Sección de multimedia -->
                 <div class="post-media">
@@ -93,45 +93,95 @@ foreach ($comments as $comment) {
                         </script>
                     <?php elseif (isset($post['hasImg']) && $post['hasImg'] === '1'): ?>
                         <p>No hay imágenes disponibles.</p>
+                    <?php else: ?>
+                        <p>No hay contenido multimedia disponible.</p>
                     <?php endif; ?>
 
                     <!-- Mostrar audio o video si está disponible -->
-                    <?php foreach ($imagesByPost[$postId] as $image): ?>
-                        <?php if (strpos($image, '.mp4') !== false): ?>
-                            <video controls width="100%">
-                                <source src="<?php echo htmlspecialchars($image); ?>" type="video/mp4">
-                                Tu navegador no soporta la etiqueta de video.
-                            </video>
-                        <?php elseif (strpos($image, '.mp3') !== false): ?>
-                            <audio controls>
-                                <source src="<?php echo htmlspecialchars($image); ?>" type="audio/mpeg">
-                                Tu navegador no soporta la etiqueta de audio.
-                            </audio>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                    <?php if (isset($imagesByPost[$postId])): ?>
+                        <?php foreach ($imagesByPost[$postId] as $image): ?>
+                            <?php if (strpos($image, '.mp4') !== false): ?>
+                                <video controls width="100%">
+                                    <source src="<?php echo htmlspecialchars($image); ?>" type="video/mp4">
+                                    Tu navegador no soporta la etiqueta de video.
+                                </video>
+                            <?php elseif (strpos($image, '.mp3') !== false): ?>
+                                <audio controls>
+                                    <source src="<?php echo htmlspecialchars($image); ?>" type="audio/mpeg">
+                                    Tu navegador no soporta la etiqueta de audio.
+                                </audio>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
+                <p><?php echo htmlspecialchars($post['descripcio']); ?></p>
+                <!-- Botón de Like para Posts -->
+                <div class="like-section">
+                    <form method="POST" action="../php/posts/like.php" style="display: inline;">
+                        <input type="hidden" name="tipo" value="post">
+                        <input type="hidden" name="idObjeto" value="<?php echo $post['idPost']; ?>">
+                        <button type="submit" class="like-btn">
+                            <?php
+                            $postId = $post['idPost'];
+                            $stmt = $db->prepare("SELECT COUNT(*) as totalLikes FROM likeapost WHERE idPost = :idPost");
+                            $stmt->bindParam(':idPost', $postId, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $totalLikes = $stmt->fetch(PDO::FETCH_ASSOC)['totalLikes'];
 
-                <!-- Sección de comentarios -->
-                <div class="comments-section">
-                    <h4>Comentarios:</h4>
-                    <div class="comments" id="comments-<?php echo $post['idPost']; ?>">
-                        <?php
-                        if (isset($commentsByPost[$postId])) {
-                            foreach ($commentsByPost[$postId] as $comment) {
-                                echo '<div class="comment">';
-                                echo '<strong>' . htmlspecialchars($comment['nomUsari']) . '</strong>: ';
-                                echo htmlspecialchars($comment['comentari']);
-                                echo '</div>';
-                            }
-                        } else {
-                            echo '<p>Aún no hay comentarios.</p>';
-                        }
-                        ?>
-                    </div>
+                            $stmt = $db->prepare("SELECT * FROM likeapost WHERE idPost = :idPost AND idUsuari = :idUsuari");
+                            $stmt->bindParam(':idPost', $postId, PDO::PARAM_INT);
+                            $stmt->bindParam(':idUsuari', $_SESSION['user_id'], PDO::PARAM_INT);
+                            $stmt->execute();
+                            $liked = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    <form class="comment-form" data-postid="<?php echo $post['idPost']; ?>">
+                            echo $liked ? '❤️ Quitar Like (' . $totalLikes . ')' : '🤍 Dar Like (' . $totalLikes . ')';
+                            ?>
+                        </button>
+                    </form>
+                </div>
+                <hr style="border: 1px solid #ccc; margin: 20px 0;">
+                <!-- Comentarios -->
+                <div class="comments" id="comments-<?php echo $post['idPost']; ?>">
+                    <?php
+                    if (isset($commentsByPost[$postId])) {
+                        foreach ($commentsByPost[$postId] as $comment): ?>
+                            <div class="comment">
+                                <strong><?php echo htmlspecialchars($comment['nomUsari']); ?>:</strong>
+                                <?php echo htmlspecialchars($comment['comentari']); ?>
+
+                                <!-- Botón de Like para Comentarios -->
+                                <form method="POST" action="../php/posts/like.php" style="display: inline;">
+                                    <input type="hidden" name="tipo" value="comentario">
+                                    <input type="hidden" name="idObjeto" value="<?php echo $comment['idComentari']; ?>">
+                                    <button type="submit" class="like-btn">
+                                        <?php
+                                        $stmt = $db->prepare("SELECT COUNT(*) as totalLikes FROM likeacomentari WHERE idComentari = :idComentari");
+                                        $stmt->bindParam(':idComentari', $comment['idComentari'], PDO::PARAM_INT);
+                                        $stmt->execute();
+                                        $totalLikes = $stmt->fetch(PDO::FETCH_ASSOC)['totalLikes'];
+
+                                        $stmt = $db->prepare("SELECT * FROM likeacomentari WHERE idComentari = :idComentari AND idUsuari = :idUsuari");
+                                        $stmt->bindParam(':idComentari', $comment['idComentari'], PDO::PARAM_INT);
+                                        $stmt->bindParam(':idUsuari', $_SESSION['user_id'], PDO::PARAM_INT);
+                                        $stmt->execute();
+                                        $liked = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                        echo $liked ? '❤️ Quitar Like (' . $totalLikes . ')' : '🤍 Dar Like (' . $totalLikes . ')';
+                                        ?>
+                                    </button>
+                                </form>
+                            </div>
+                        <?php endforeach;
+                    } else {
+                        echo '<p>Aún no hay comentarios.</p>';
+                    }
+                    ?>
+                </div>
+                <!-- Formulario para Añadir Comentarios -->
+                <div class="comment-form" data-postid="<?php echo $post['idPost']; ?>">
+                    <form>
                         <input type="text" name="comentario" placeholder="Escribe un comentario..." required>
-                        <button type="submit">Comentar</button>
+                        <button type="submit">Enviar</button>
                     </form>
                 </div>
             </div>
