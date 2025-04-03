@@ -5,12 +5,14 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333; /* Color principal del texto */
+    line-height: 1.6; /* Mejora la legibilidad */
 }
 
 h1 {
     color: #2c3e50; /* Azul oscuro para el título principal */
     text-align: center;
     margin-bottom: 20px;
+    font-size: 2rem; /* Tamaño adaptable */
 }
 
 a {
@@ -39,16 +41,19 @@ a:hover {
     margin-bottom: 20px;
     color: #333; /* Color del texto dentro de los posts */
     width: 100%; /* Asegurarse de que ocupe todo el ancho del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
 }
 
 .post-header h3 {
     color: #2c3e50; /* Azul oscuro para los títulos de los posts */
     margin-bottom: 10px;
+    font-size: 1.5rem; /* Tamaño adaptable */
 }
 
 .post-content p {
     color: #555; /* Gris oscuro para la descripción */
     line-height: 1.6;
+    font-size: 1rem; /* Tamaño adaptable */
 }
 
 .post-media {
@@ -76,15 +81,21 @@ a:hover {
 .comments-section h4 {
     color: #2c3e50; /* Azul oscuro para el título de comentarios */
     margin-bottom: 10px;
+    font-size: 1.2rem; /* Tamaño adaptable */
 }
 
 .comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
-    color: #333; /* Color del texto de los comentarios */
+    color: #333;
+    font-size: 0.9rem; /* Tamaño adaptable */
 }
 
 .comment strong {
     color: #2c3e50; /* Azul oscuro para el nombre del usuario */
+    font-size: 1rem; /* Tamaño adaptable */
 }
 
 .comment-form input {
@@ -94,6 +105,7 @@ a:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
     color: #333; /* Color del texto en el campo de entrada */
+    font-size: 1rem; /* Tamaño adaptable */
 }
 
 .comment-form button {
@@ -103,6 +115,7 @@ a:hover {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 1rem; /* Tamaño adaptable */
 }
 
 .comment-form button:hover {
@@ -172,3 +185,121 @@ audio {
     font-size: 14px; /* Tamaño reducido para los likes en comentarios */
 }
 
+/* Estilo para la fecha de los posts */
+.post-date {
+    font-size: 12px;
+    color: #999; /* Gris claro */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Estilo para la fecha de los comentarios */
+.comment-date {
+    font-size: 12px;
+    color: #999; /* Gris claro */
+    margin-left: 10px; /* Espacio entre el comentario y la fecha */
+}
+
+/* Ajustes generales para los posts */
+.post-card {
+    position: relative; /* Necesario para posicionar la fecha del post */
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Media Queries para Responsive Design */
+@media (max-width: 768px) {
+    /* Ajustar el ancho máximo del contenedor */
+    .posts-container {
+        padding: 10px;
+    }
+
+    /* Reducir el tamaño del título */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Reducir el tamaño de los títulos de los posts */
+    .post-header h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Reducir el tamaño del texto en los posts */
+    .post-content p {
+        font-size: 0.9rem;
+    }
+
+    /* Reducir el tamaño del texto en los comentarios */
+    .comment {
+        font-size: 0.8rem;
+    }
+
+    .comment strong {
+        font-size: 0.9rem;
+    }
+
+    /* Ajustar el tamaño del botón de like */
+    .like-btn {
+        font-size: 14px;
+    }
+
+    /* Ajustar el tamaño del formulario de comentarios */
+    .comment-form input {
+        font-size: 0.9rem;
+    }
+
+    .comment-form button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustar el ancho máximo del contenedor */
+    .posts-container {
+        padding: 5px;
+    }
+
+    /* Reducir aún más el tamaño del título */
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Reducir el tamaño de los títulos de los posts */
+    .post-header h3 {
+        font-size: 1.2rem;
+    }
+
+    /* Reducir el tamaño del texto en los posts */
+    .post-content p {
+        font-size: 0.8rem;
+    }
+
+    /* Reducir el tamaño del texto en los comentarios */
+    .comment {
+        font-size: 0.7rem;
+    }
+
+    .comment strong {
+        font-size: 0.8rem;
+    }
+
+    /* Ajustar el tamaño del botón de like */
+    .like-btn {
+        font-size: 12px;
+    }
+
+    /* Ajustar el tamaño del formulario de comentarios */
+    .comment-form input {
+        font-size: 0.8rem;
+    }
+
+    .comment-form button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}

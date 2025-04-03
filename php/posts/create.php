@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titol = trim($_POST['titol']);
     $descripcio = trim($_POST['descripcio']);
     $idUsuari = $_SESSION['user_id'];
+    $tagsInput = trim($_POST['tags']); // Tags separados por comas (e.g., "arte, diseño, creatividad")
 
     if (empty($titol) || empty($descripcio)) {
         header("Location: ../../web/create_post.php?error=Todos los campos son obligatorios.");
@@ -82,10 +83,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute();
                 $hasImg = 1;
             } else {
-                // Si move_uploaded_file falla, mostrar un mensaje de error
                 echo "<p>Error al mover el archivo.</p>";
                 var_dump($_FILES['media']); // Depuración
                 exit;
+            }
+        }
+
+        // Procesar tags
+        if (!empty($tagsInput)) {
+            $tags = array_map('trim', explode(',', $tagsInput)); // Dividir tags por comas
+
+            foreach ($tags as $tagName) {
+                if (!empty($tagName)) {
+                    // Verificar si el tag ya existe
+                    $stmt = $db->prepare("SELECT idTag FROM tags WHERE tag = :tag");
+                    $stmt->bindParam(':tag', $tagName, PDO::PARAM_STR);
+                    $stmt->execute();
+                    $tag = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if (!$tag) {
+                        // Crear el tag si no existe
+                        $stmt = $db->prepare("INSERT INTO tags (tag, descripcio) VALUES (:tag, '')");
+                        $stmt->bindParam(':tag', $tagName, PDO::PARAM_STR);
+                        $stmt->execute();
+                        $idTag = $db->lastInsertId();
+                    } else {
+                        $idTag = $tag['idTag'];
+                    }
+
+                    // Relacionar el tag con el post
+                    $stmt = $db->prepare("INSERT INTO tagpost (idTag, idPost) VALUES (:idTag, :idPost)");
+                    $stmt->bindParam(':idTag', $idTag, PDO::PARAM_INT);
+                    $stmt->bindParam(':idPost', $idPost, PDO::PARAM_INT);
+                    $stmt->execute();
+                }
             }
         }
 

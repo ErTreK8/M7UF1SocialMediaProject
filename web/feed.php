@@ -51,12 +51,42 @@ foreach ($comments as $comment) {
 
 <h1>Últimos Posts</h1>
 <a href="./create_post.php">Crear Post</a>
+<!-- Buscador -->
+<div class="search-bar">
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Buscar por título o tags..." value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
 
+<!-- Consulta para obtener los posts -->
+<?php
+$query = isset($_GET['q']) ? trim($_GET['q']) : '';
+if (!empty($query)) {
+    // Buscar posts por título o tags
+    $stmt = $db->prepare("
+        SELECT DISTINCT p.* 
+        FROM Post p
+        LEFT JOIN tagpost tp ON p.idPost = tp.idPost
+        LEFT JOIN tags t ON tp.idTag = t.idTag
+        WHERE p.titol LIKE :query OR t.tag LIKE :query
+        ORDER BY p.idPost DESC
+    ");
+    $searchTerm = '%' . $query . '%';
+    $stmt->bindParam(':query', $searchTerm, PDO::PARAM_STR);
+} else {
+    // Obtener todos los posts
+    $stmt = $db->prepare("SELECT * FROM Post ORDER BY idPost DESC");
+}
+$stmt->execute();
+$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <div class="posts-container">
     <?php foreach ($posts as $post): ?>
         <div class="post-card">
             <div class="post-header">
                 <h3><?php echo htmlspecialchars($post['titol']); ?></h3>
+                <span class="post-date"><?php echo date('d/m/Y H:i', strtotime($post['DataCreacio'])); ?></span>
             </div>
             <div class="post-content">
 
@@ -148,6 +178,7 @@ foreach ($comments as $comment) {
                             <div class="comment">
                                 <strong><?php echo htmlspecialchars($comment['nomUsari']); ?>:</strong>
                                 <?php echo htmlspecialchars($comment['comentari']); ?>
+                                <span class="comment-date"><?php echo date('d/m/Y H:i', strtotime($comment['dataComentari'])); ?></span>
 
                                 <!-- Botón de Like para Comentarios -->
                                 <form method="POST" action="../php/posts/like.php" style="display: inline;">
@@ -176,13 +207,6 @@ foreach ($comments as $comment) {
                         echo '<p>Aún no hay comentarios.</p>';
                     }
                     ?>
-                </div>
-                <!-- Formulario para Añadir Comentarios -->
-                <div class="comment-form" data-postid="<?php echo $post['idPost']; ?>">
-                    <form>
-                        <input type="text" name="comentario" placeholder="Escribe un comentario..." required>
-                        <button type="submit">Enviar</button>
-                    </form>
                 </div>
             </div>
         </div>
