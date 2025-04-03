@@ -1,38 +1,54 @@
 <?php
+session_start();
 require_once 'conecta_db_persistent.php';
 
-// Verificar sesión
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-
-$user_id = $_SESSION['user_id'];
-
-try {
-    // Obtener datos del usuario junto con la ciudad
-    $query = $db->prepare("SELECT u.nomUsari, u.nom, u.cognom, u.email, u.telefon, u.descripcio, u.fotoPerfil, 
-                                  u.edad, u.Calle, c.nomCiutat 
-                           FROM Usuario u
-                           LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
-                           WHERE u.IdUsr = :user_id");
-    $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+if (isset($_SESSION['user_id'])) {
+    $username = $_SESSION['username'];
+    $query = $db->prepare('SELECT 
+                u.*, 
+                c.nomCiutat
+            FROM Usuario u
+            LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
+            WHERE (u.nomUsari = :username OR u.email = :username) 
+            AND u.active = 1');
+            
+    $query->bindParam(':username', $username, PDO::PARAM_STR);
     $query->execute();
+
     $user = $query->fetch(PDO::FETCH_ASSOC);
 
-    if (!$user) {
-        header("Location: home.php");
-        exit;
-    }
+    $query = null;
 
-    // Verificar si la foto de perfil está en Base64
-    if (!empty($user['fotoPerfil']) && str_starts_with($user['fotoPerfil'], 'data:image')) {
-        $fotoPerfil = $user['fotoPerfil']; // Ya es Base64, se usa directamente
-    } else {
-        $fotoPerfil = '../imgPerfil/generic.png'; // Imagen por defecto
-    }
+    $query = $db->prepare('SELECT * FROM Ciutat');
 
-} catch (PDOException $e) {
-    die("Error al obtener los datos del usuario: " . $e->getMessage());
-}
+    // $query->bindParam(':username', $username, PDO::PARAM_STR);
+    $query->execute();
+
+    $ciutats = $query->fetchAll(PDO::FETCH_ASSOC);
+            if ($user) {
+                // Verificar contra
+                // if ($_SESSION['user_id'] == $user['user_id']) { 
+
+                    //ultimo inicio sesion
+                    // $lastSignIn = date('Y-m-d H:i:s');
+                    // $updateQuery = $db->prepare('UPDATE Usuario SET lastSignIn = :lastSignIn WHERE IdUsr = :userId');
+                    // $updateQuery->bindParam(':lastSignIn', $lastSignIn, PDO::PARAM_STR);
+                    // $updateQuery->bindParam(':userId', $user['IdUsr'], PDO::PARAM_INT);
+                    // $updateQuery->execute();
+
+                    // guardar cosos en la sesion
+                    $_SESSION['user_id'] = $user['IdUsr'];
+                    $_SESSION['username'] = $user['nomUsari'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['image'] = $user['fotoPerfil'];
+                    $_SESSION['name'] = $user['nom'];
+                    $_SESSION['yearsold'] = $user['edad'];
+                    $_SESSION['lastname'] = $user['cognom'];
+                    $_SESSION['tlf'] = $user['telefon'];
+                    $_SESSION['description'] = $user['descripcio'];
+                    $_SESSION['ciutat'] = $ciutats['nomCiutat'];
+                // }
+                // exit;
+            }
+        }
 ?>

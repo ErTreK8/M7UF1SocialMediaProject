@@ -1,0 +1,305 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333; /* Color principal del texto */
+    line-height: 1.6; /* Mejora la legibilidad */
+}
+
+h1 {
+    color: #2c3e50; /* Azul oscuro para el título principal */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem; /* Tamaño adaptable */
+}
+
+a {
+    color: #007bff; /* Azul para los enlaces */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 800px; /* Ancho máximo para los posts */
+    margin: 0 auto; /* Centrar los posts horizontalmente */
+}
+
+.post-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #333; /* Color del texto dentro de los posts */
+    width: 100%; /* Asegurarse de que ocupe todo el ancho del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
+}
+
+.post-header h3 {
+    color: #2c3e50; /* Azul oscuro para los títulos de los posts */
+    margin-bottom: 10px;
+    font-size: 1.5rem; /* Tamaño adaptable */
+}
+
+.post-content p {
+    color: #555; /* Gris oscuro para la descripción */
+    line-height: 1.6;
+    font-size: 1rem; /* Tamaño adaptable */
+}
+
+.post-media {
+    margin-bottom: 20px;
+}
+
+.carousel {
+    width: 100%;
+    max-width: 600px; /* Ancho máximo del carrousel */
+    margin: 0 auto; /* Centrar el carrousel */
+}
+
+.slider {
+    width: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    max-height: 400px; /* Tamaño máximo de altura */
+}
+
+.comments-section h4 {
+    color: #2c3e50; /* Azul oscuro para el título de comentarios */
+    margin-bottom: 10px;
+    font-size: 1.2rem; /* Tamaño adaptable */
+}
+
+.comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 0.9rem; /* Tamaño adaptable */
+}
+
+.comment strong {
+    color: #2c3e50; /* Azul oscuro para el nombre del usuario */
+    font-size: 1rem; /* Tamaño adaptable */
+}
+
+.comment-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333; /* Color del texto en el campo de entrada */
+    font-size: 1rem; /* Tamaño adaptable */
+}
+
+.comment-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem; /* Tamaño adaptable */
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos generales para imágenes y videos */
+.post-media img,
+.post-media video,
+.post-media audio {
+    max-width: 100%;
+    max-height: 400px; /* Tamaño máximo de altura */
+    margin-bottom: 20px;
+}
+
+/* Estilos específicos para imágenes */
+.slide img {
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Estilos para reproductores */
+video,
+audio {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Estilos para el botón de like */
+.like-section {
+    text-align: right; /* Alinea el botón de like a la derecha */
+    margin-top: 10px;
+}
+
+.like-btn {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    font-size: 16px; /* Tamaño de fuente */
+    color: #ff4d4d; /* Color rojo para el corazón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: color 0.3s ease; /* Animación suave al cambiar el color */
+}
+
+.like-btn:hover {
+    color: #ff1744; /* Color rojo más intenso al pasar el ratón */
+}
+
+.like-btn svg {
+    vertical-align: middle; /* Alinea el icono correctamente */
+    margin-right: 5px; /* Espacio entre el icono y el texto */
+}
+
+.like-btn span {
+    font-weight: bold; /* Texto en negrita */
+    font-size: 14px; /* Tamaño del texto */
+    color: #555; /* Color del texto */
+}
+
+/* Estilo cuando el usuario ha dado like (corazón relleno) */
+.like-btn.liked {
+    color: #ff1744; /* Corazón rojo intenso */
+}
+
+/* Botones de like en comentarios */
+.comment .like-btn {
+    margin-left: 10px; /* Espacio entre el comentario y el botón de like */
+    font-size: 14px; /* Tamaño reducido para los likes en comentarios */
+}
+
+/* Estilo para la fecha de los posts */
+.post-date {
+    font-size: 12px;
+    color: #999; /* Gris claro */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Estilo para la fecha de los comentarios */
+.comment-date {
+    font-size: 12px;
+    color: #999; /* Gris claro */
+    margin-left: 10px; /* Espacio entre el comentario y la fecha */
+}
+
+/* Ajustes generales para los posts */
+.post-card {
+    position: relative; /* Necesario para posicionar la fecha del post */
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Media Queries para Responsive Design */
+@media (max-width: 768px) {
+    /* Ajustar el ancho máximo del contenedor */
+    .posts-container {
+        padding: 10px;
+    }
+
+    /* Reducir el tamaño del título */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Reducir el tamaño de los títulos de los posts */
+    .post-header h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Reducir el tamaño del texto en los posts */
+    .post-content p {
+        font-size: 0.9rem;
+    }
+
+    /* Reducir el tamaño del texto en los comentarios */
+    .comment {
+        font-size: 0.8rem;
+    }
+
+    .comment strong {
+        font-size: 0.9rem;
+    }
+
+    /* Ajustar el tamaño del botón de like */
+    .like-btn {
+        font-size: 14px;
+    }
+
+    /* Ajustar el tamaño del formulario de comentarios */
+    .comment-form input {
+        font-size: 0.9rem;
+    }
+
+    .comment-form button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustar el ancho máximo del contenedor */
+    .posts-container {
+        padding: 5px;
+    }
+
+    /* Reducir aún más el tamaño del título */
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Reducir el tamaño de los títulos de los posts */
+    .post-header h3 {
+        font-size: 1.2rem;
+    }
+
+    /* Reducir el tamaño del texto en los posts */
+    .post-content p {
+        font-size: 0.8rem;
+    }
+
+    /* Reducir el tamaño del texto en los comentarios */
+    .comment {
+        font-size: 0.7rem;
+    }
+
+    .comment strong {
+        font-size: 0.8rem;
+    }
+
+    /* Ajustar el tamaño del botón de like */
+    .like-btn {
+        font-size: 12px;
+    }
+
+    /* Ajustar el tamaño del formulario de comentarios */
+    .comment-form input {
+        font-size: 0.8rem;
+    }
+
+    .comment-form button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}

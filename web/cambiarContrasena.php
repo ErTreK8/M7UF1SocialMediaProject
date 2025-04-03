@@ -12,8 +12,8 @@
         <form class="form-group" action="../php/resetPasswordSend.php" method="POST">
             <label for="email">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required>
+            <button class="signup-btn" type="submit">Enviar enlace de restablecimiento</button>
         </form>
-        <button class="signup-btn" type="submit">Enviar enlace de restablecimiento</button>
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="message">
                 <?php echo $_SESSION['success_message']; ?>
