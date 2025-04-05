@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // guardar cosos en la sesion
                     $_SESSION['user_id'] = $user['IdUsr'];
-                    $_SESSION['username'] = $user['nomUsari'];
+                    $_SESSION['username'] = $user['nomUsuari'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['image'] = $user['fotoPerfil'];
                     $_SESSION['name'] = $user['nom'];

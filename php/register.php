@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         // enlace de activación
-        $activationLink = "http://localhost/Proyecto/M7UF1SocialMediaProject/php/mailCheckAccount.php?code=$activationCode&mail=$email";
+        $activationLink = "http://localhost/M7UF1SocialMediaProject/php/mailCheckAccount.php?code=$activationCode&mail=$email";
         
         $mail = new PHPMailer(true);
         $mail->isSMTP();
