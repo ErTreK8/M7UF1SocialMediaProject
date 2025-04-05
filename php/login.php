@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
             LEFT JOIN Comarca co ON c.idComarca = co.idComarca
             LEFT JOIN ComunidadAutonoma ca ON co.idComunidad = ca.idComunidad
-            WHERE (u.nomUsari = :username OR u.email = :username) 
+            WHERE (u.nomUsuari = :username OR u.email = :username) 
             AND u.active = 1');
             
             $query->bindParam(':username', $username, PDO::PARAM_STR);

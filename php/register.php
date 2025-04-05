@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $active = 0;
 
     try {
-        $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsari = :username OR email = :email');
+        $query = $db->prepare('SELECT COUNT(*) FROM Usuario WHERE nomUsuari = :username OR email = :email');
         $query->execute([':username' => $username, ':email' => $email]);
         if ($query->fetchColumn() > 0) {
             $_SESSION['error_message'] = "Este Usuario o email ya existe.";
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $insertQuery = $db->prepare(
-            'INSERT INTO Usuario (nomUsari, password, email, creationDate, active, activationCode) 
+            'INSERT INTO Usuario (nomUsuari, password, email, creationDate, active, activationCode) 
              VALUES (:username, :password, :email, :creationDate, :active, :activationCode)'
         );
 

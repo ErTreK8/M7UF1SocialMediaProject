@@ -11,7 +11,7 @@ if (isset($_SESSION['user_id'])) {
                 c.nomCiutat
             FROM Usuario u
             LEFT JOIN Ciutat c ON u.idCiutat = c.idCiutat
-            WHERE (u.nomUsari = :username OR u.email = :username) 
+            WHERE (u.nomUsuari = :username OR u.email = :username) 
             AND u.active = 1');
             
     $query->bindParam(':username', $username, PDO::PARAM_STR);
@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'])) {
     if ($user) {
         // Guardar datos del usuario en la sesión
         $_SESSION['user_id'] = $user['IdUsr'];
-        $_SESSION['username'] = $user['nomUsari'];
+        $_SESSION['username'] = $user['nomUsuari'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['image'] = $user['fotoPerfil'];
         $_SESSION['name'] = $user['nom'];
