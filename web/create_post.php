@@ -77,14 +77,14 @@ if (!isset($_SESSION['user_id'])) {
         <!-- Campo para subir imágenes -->
         <div id="imageUpload">
             <label class="text">Subir imágenes (máx. 10):</label>
-            <input type="file" id="imagenes" name="imagenes[]" accept="image/jpeg, image/png, image/webp" multiple>
+            <input type="file" style="display= none" id="imagenes" name="imagenes[]" accept="image/jpeg, image/png, image/webp" multiple>
             <br><br>
         </div>
 
         <!-- Campo para subir video o audio -->
         <div id="videoAudioUpload" style="display: none;">
             <label class="text">Subir video (MP4) o audio (MP3):</label>
-            <input type="file" id="media" name="media" accept="video/mp4, audio/mp3">
+            <input type="file" style="display= none" id="media" name="media" accept="video/mp4, audio/mp3">
             <br><br>
         </div>
 

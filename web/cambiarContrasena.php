@@ -8,11 +8,11 @@
 </head>
 <body>
     <div class="signup-container" id="signup-container">
-        <h1>Restablecer Contraseña</h1>
+        <h2>Restablecer Contraseña</h2>
         <form class="form-group" action="../php/resetPasswordSend.php" method="POST">
             <label for="email">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required>
-            <button class="signup-btn" type="submit">Enviar enlace de restablecimiento</button>
+            <button style="margin-top:20px" class="signup-btn" type="submit">Enviar enlace de restablecimiento</button>
         </form>
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="message">

@@ -32,13 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     //ultimo inicio sesion
                     $lastSignIn = date('Y-m-d H:i:s');
-                    $updateQuery = $db->prepare('UPDATE Usuario SET lastSignIn = :lastSignIn WHERE IdUsr = :userId');
+                    $updateQuery = $db->prepare('UPDATE Usuario SET lastSignIn = :lastSignIn WHERE idUsr = :userId');
                     $updateQuery->bindParam(':lastSignIn', $lastSignIn, PDO::PARAM_STR);
-                    $updateQuery->bindParam(':userId', $user['IdUsr'], PDO::PARAM_INT);
+                    $updateQuery->bindParam(':userId', $user['idUsr'], PDO::PARAM_INT);
                     $updateQuery->execute();
 
                     // guardar cosos en la sesion
-                    $_SESSION['user_id'] = $user['IdUsr'];
+                    $_SESSION['user_id'] = $user['idUsr'];
                     $_SESSION['username'] = $user['nomUsuari'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['image'] = $user['fotoPerfil'];

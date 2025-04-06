@@ -1,9 +1,11 @@
 <?php
-session_start();
 
 if (isset($_SESSION['user_id'])) {
     header("Location: ./web/home.php");
     exit;
+}
+else{
+    session_start();
 }
 ?>
 <!DOCTYPE html>

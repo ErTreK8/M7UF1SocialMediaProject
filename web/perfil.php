@@ -19,13 +19,13 @@ require_once '../php/carregarPerfil.php';
                 <img src="../img/circulo.png" width="30px">
             </a>
             <div id="cajaFotoUsuari">
-                <img src="<?php echo !empty($user['fotoPerfil']) ? htmlspecialchars($user['fotoPerfil']) : '../img/default-avatar.png'; ?>" 
+                <img src="<?php echo !empty($user['fotoPerfil']) ? htmlspecialchars($user['fotoPerfil']) : '../imgPerfil/generic.png'; ?>" 
                      alt="Foto de usuario" id="fotoPerfilPreview" 
                      style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer;">
-                <p class="text"><?php echo htmlspecialchars($user['nomUsari']); ?></p>
+                <p class="text"><?php echo htmlspecialchars($user['nomUsuari']); ?></p>
             </div>
             <p class="text"><strong>Nombre:</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
-            <p class="text"><strong>Apellido:</strong> <?php echo htmlspecialchars($user['cognom']); ?></p>
+            <p class="text"><strong>Apellido:</strong> <?php echo isset($user['cognoms']) ? htmlspecialchars($user['cognoms']) : 'No especificada'; ?></p>
             <p class="text">
                 <?php echo (!empty($user['descripcio'])) ? htmlspecialchars($user['descripcio']) : "Descripción no especificada"; ?>
             </p>
@@ -45,6 +45,7 @@ require_once '../php/carregarPerfil.php';
     </main>
     <footer>
         <a href="../php/logout.php" class="logout-btn">Logout</a>
+        <a href="../web/home.php" class="logout-btn">Home</a>
     </footer>
 </body>
 </html>

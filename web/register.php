@@ -1,9 +1,10 @@
 <?php
-session_start();
-
 if (isset($_SESSION['user_id'])) {
     header("Location: ./home.php");
     exit;
+}
+else{
+    session_start();
 }
 ?>
 
@@ -42,7 +43,6 @@ if (isset($_SESSION['user_id'])) {
         </div>
         <div>
             <?php 
-                session_start();
                 if (isset($_SESSION['error_message'])) {
                     echo "<h1>" . $_SESSION['error_message'] . "</h1>";
                     unset($_SESSION['error_message']);

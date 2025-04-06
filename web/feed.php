@@ -20,7 +20,7 @@ foreach ($images as $image) {
 }
 
 // Consulta para obtener los comentarios de los posts
-$commentsQuery = $db->query("SELECT c.*, u.nomUsari FROM Comentari c JOIN Usuario u ON c.IdUsuari = u.IdUsr ORDER BY c.idComentari ASC");
+$commentsQuery = $db->query("SELECT c.*, u.nomUsuari FROM Comentari c JOIN Usuario u ON c.IdUsuari = u.idUsr ORDER BY c.idComentari ASC");
 $comments = $commentsQuery->fetchAll(PDO::FETCH_ASSOC);
 
 // Organizar los comentarios por idPost

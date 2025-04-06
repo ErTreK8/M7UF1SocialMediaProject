@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("../img/fondoLogin.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #000000;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.signup-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.signup-container img {
+    max-width: 50%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+button.signup-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button.signup-btn:hover {
+    background-color: #45a049;
+}
+
+.secondary-section {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.secondary-section a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.secondary-section a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    color: white;
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 15px;
+    }
+    .signup-container img {
+        width: 40%;
+    }
+    button.signup-btn {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .secondary-section {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 10px;
+    }
+
+    button.signup-btn {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .secondary-section {
+        font-size: 12px;
+    }
+}

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'conecta_db_persistent.php';
 
 if (isset($_SESSION['user_id'])) {
@@ -21,16 +20,16 @@ if (isset($_SESSION['user_id'])) {
 
     if ($user) {
         // Guardar datos del usuario en la sesión
-        $_SESSION['user_id'] = $user['IdUsr'];
+        $_SESSION['user_id'] = $user['idUsr'];
         $_SESSION['username'] = $user['nomUsuari'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['image'] = $user['fotoPerfil'];
         $_SESSION['name'] = $user['nom'];
-        $_SESSION['yearsold'] = $user['edat']; // Usa 'edat' en lugar de 'edad'
-        $_SESSION['lastname'] = $user['cognom'];
+        $_SESSION['yearsold'] = $user['edat'];
+        $_SESSION['lastname'] = $user['cognoms'];
         $_SESSION['tlf'] = $user['telefon'];
         $_SESSION['description'] = $user['descripcio'];
-        $_SESSION['ciutat'] = $user['nomCiutat']; // Asigna directamente la ciudad del usuario
+        $_SESSION['ciutat'] = $user['nomCiutat'];
     }
 }
 ?>
