@@ -1,0 +1,44 @@
+/* Estilo general de los botones de navegación del carrusel */
+.slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); /* Centra verticalmente el botón */
+    background-color: rgba(53, 138, 67, 0.8); /* Fondo oscuro con algo de transparencia */
+    transition: background-color 0.3s;
+    color: white; /* Texto blanco */
+    border-radius: 100px; /* Sin borde */
+    padding: 10px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+    z-index: 90; /* Asegura que los botones estén por encima de las imágenes */
+}
+@keyframes slideIn {
+    from {
+        left: -250px; /* Empieza desde fuera de la pantalla */
+    }
+    to {
+        left: 0; /* Se desliza hasta la posición normal */
+    }
+}
+/* Botón "Anterior" (a la izquierda) */
+.slick-prev {
+    left: 10px; /* 10px desde el borde izquierdo */
+}
+
+/* Botón "Siguiente" (a la derecha) */
+.slick-next {
+    right: 10px; /* 10px desde el borde derecho */
+}
+
+/* Opcional: Efecto de hover sobre los botones */
+.slick-prev:hover, .slick-next:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo más oscuro cuando se pasa el ratón */
+}
+
+/* Estilos adicionales para mejorar la visibilidad en pantallas pequeñas */
+@media (max-width: 768px) {
+    .slick-prev, .slick-next {
+        font-size: 14px; /* Reducir el tamaño de la fuente en pantallas pequeñas */
+        padding: 8px; /* Reducir el espaciado interno en pantallas pequeñas */
+    }
+}

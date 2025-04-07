@@ -5,7 +5,7 @@
     justify-content: space-between; /* Distribuir los elementos entre ellos */
     align-items: center; /* Alineación vertical centrada */
     padding: 20px;
-    background-color:rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     border-bottom: 2px solid #4CAF50; /* Borde verde en la parte inferior */
 }
 
@@ -18,7 +18,7 @@
 
 .nav-links {
     display: flex;
-    flex-direction: row; /* Los enlaces estarán en fila */
+    flex-direction: row; /* Los enlaces estarán en fila en pantallas grandes */
     align-items: center;
     padding: 0;
     margin: 0;
@@ -29,8 +29,6 @@
     margin: 0 15px; /* Espaciado entre los elementos */
 }
 
-
-
 .nav-link {
     color: white;
     text-decoration: none;
@@ -39,15 +37,32 @@
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 5px;
     transition: background-color 0.3s;
-    margin:0;
+    margin: 0;
 }
 
 .nav-link:hover {
     background-color: #45a049; /* Fondo verde cuando el ratón pasa sobre el enlace */
 }
-.active{
+
+.active {
     background-color: #3f7942;
 }
+
+/* Estilos para el icono de hamburguesa */
+.hamburger {
+    display: none; /* Ocultamos el icono en pantallas grandes */
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+}
+
+/* Estilos para pantallas pequeñas */
 @media (max-width: 768px) {
     .navbar h1 {
         font-size: 20px;
@@ -57,12 +72,32 @@
         font-size: 16px;
     }
 
+    /* Cambio de dirección de los enlaces en pantallas pequeñas */
     .nav-links {
-        flex-direction: column; /* En pantallas más pequeñas, los enlaces se apilan */
+        flex-direction: column;
+        display: none; /* Ocultamos los enlaces en pantallas pequeñas */
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 99;
     }
 
-    .nav-links li {
-        margin: 10px 0; /* Ajustamos el margen entre los elementos cuando están en columna */
+    .nav-links.active {
+        display: flex; /* Mostramos los enlaces cuando el menú está abierto */
+        right: 60%;
+        align-items: flex-end;
+    }
+
+    /* Mostramos el icono de hamburguesa */
+    .hamburger {
+        display: flex;
     }
 }
 

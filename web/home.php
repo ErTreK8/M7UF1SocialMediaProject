@@ -20,8 +20,20 @@
                 <li><a href="../web/home.php" class="active nav-link">Feed</a></li>
                 <li><a href="./perfil.php" class="nav-link">Perfil</a></li>
             </ul>
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </nav>
+        <script>
+            document.getElementById("hamburger").addEventListener("click", function() {
+                var navLinks = document.querySelector(".nav-links");
+                navLinks.classList.toggle("active"); // Activa o desactiva el menú
+            });
+        </script>
     </body>
+    
 </html>
 <?php
 
@@ -66,6 +78,7 @@ foreach ($comments as $comment) {
     <title>Feed</title>
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/feed.css">
+    <link rel="stylesheet" href="../css/carrousel.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -140,8 +153,8 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     speed: 300,
                                     slidesToShow: 1,
                                     slidesToScroll: 1,
-                                    prevArrow: '<button type="button" class="slick-prev">Anterior</button>',
-                                    nextArrow: '<button type="button" class="slick-next">Siguiente</button>'
+                                    prevArrow: '<button type="button" class="slick-prev"><</button>',
+                                    nextArrow: '<button type="button" class="slick-next">></button>'
                                 });
                             });
                         </script>
