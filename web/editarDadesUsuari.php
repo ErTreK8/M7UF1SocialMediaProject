@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($name) && !empty($lastname) && !empty($email) && !empty($tlf) && isset($edat)) {
         try {
             $updateQuery = $db->prepare("UPDATE Usuario 
-                SET nom = :name, cognom = :lastname, email = :email, telefon = :tlf, descripcio = :description, 
+                SET nom = :name, cognoms = :lastname, email = :email, telefon = :tlf, descripcio = :description, 
                     idCiutat = :ciudad, edat = :edat" . ($fotoPerfil !== null ? ", fotoPerfil = :fotoPerfil" : "") . " 
                 WHERE IdUsr = :user_id");
 
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updateQuery->bindParam(':tlf', $tlf, PDO::PARAM_STR);
             $updateQuery->bindParam(':description', $description, PDO::PARAM_STR);
             $updateQuery->bindParam(':ciudad', $ciudad, PDO::PARAM_INT);
-            $updateQuery->bindParam(':edat', $edat, PDO::PARAM_INT); // Cambiado de 'edad' a 'edat'
+            $updateQuery->bindParam(':edat', $edat, PDO::PARAM_LOB); // Cambiado de 'edad' a 'edat'
             $updateQuery->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
             if ($fotoPerfil !== null) {
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Obtener los datos del usuario para mostrar en el formulario
-$query = $db->prepare("SELECT nom, cognom, email, telefon, descripcio, fotoPerfil, idCiutat, edat FROM Usuario WHERE IdUsr = :user_id");
+$query = $db->prepare("SELECT nom, cognoms, email, telefon, descripcio, fotoPerfil, idCiutat, edat FROM Usuario WHERE IdUsr = :user_id");
 $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $query->execute();
 $user = $query->fetch(PDO::FETCH_ASSOC);
@@ -107,7 +107,8 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil</title>
     <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../css/modificarPerfi.css">
+    <link rel="stylesheet" href="../css/modificarPerfil.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -122,6 +123,7 @@ try {
     <?php endif; ?>
 
     <div class="cajachula">
+        <button id="btn-salir" class="logout-btn"><a href="../web/perfil.php">Salir</a></button>
         <form action="editarDadesUsuari.php" method="POST" enctype="multipart/form-data">
             <div id="cajaFotoUsuari">
                 <label for="fotoPerfilInput">
@@ -130,34 +132,27 @@ try {
                          style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer;">
                 </label>
                 <input type="file" id="fotoPerfilInput" name="fotoPerfil" accept="image/*" style="display: none;">
-                <br><br>
             </div>
 
-            <label class="text" for="name">Nombre:</label>
+            <label class="text" for="name">Nombre</label>
             <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['nom']); ?>" required>
-            <br><br>
 
-            <label class="text" for="lastname">Apellido:</label>
-            <input type="text" id="lastname" name="lastname" value="<?php echo htmlspecialchars($user['cognom']); ?>" required>
-            <br><br>
+            <label class="text" for="lastname">Apellido</label>
+            <input type="text" id="lastname" name="lastname" value="<?php echo htmlspecialchars($user['cognoms']); ?>" required>
 
-            <label class="text" for="email">Correo Electrónico:</label>
+            <label class="text" for="email">Correo Electrónico</label>
             <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
-            <br><br>
 
-            <label class="text" for="tlf">Teléfono:</label>
+            <label class="text" for="tlf">Teléfono</label>
             <input type="text" id="tlf" name="tlf" value="<?php echo htmlspecialchars($user['telefon']); ?>" required>
-            <br><br>
 
-            <label class="text" for="edat">Edad:</label>
-            <input type="number" id="edat" name="edat" value="<?php echo isset($user['edat']) ? htmlspecialchars($user['edat']) : ''; ?>" required>
-            <br><br>
+            <label class="text" for="edat">Fecha de Nacimiento</label>
+            <input type="date" id="edat" name="edat" value="<?php echo isset($user['edat']) ? htmlspecialchars($user['edat']) : ''; ?>" max="<?php echo date('Y-m-d'); ?>" required>
 
-            <label class="text" for="description">Descripción:</label>
+            <label class="text" for="description">Descripción</label>
             <textarea id="description" name="description"><?php echo htmlspecialchars($user['descripcio']); ?></textarea>
-            <br><br>
 
-            <label class="text" for="ciudad">Ciudad:</label>
+            <label class="text" for="ciudad">Ciudad</label>
             <select id="ciudad" name="ciudad" required>
                 <?php if (!empty($ciudades)): ?>
                     <?php foreach ($ciudades as $ciudad): ?>
@@ -170,12 +165,12 @@ try {
                     <option value="">No hay ciudades disponibles</option>
                 <?php endif; ?>
             </select>
-            <br><br>
 
             <button class="logout-btn" type="submit">Guardar Cambios</button>
         </form>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
         document.getElementById('fotoPerfilInput').addEventListener('change', function(event) {
             let reader = new FileReader();
@@ -184,6 +179,9 @@ try {
                 document.getElementById('fotoPerfilPreview').src = base64String;
             }
             reader.readAsDataURL(event.target.files[0]);
+        });
+        $(document).ready(function() {
+            $('#ciudad').select2();
         });
     </script>
 

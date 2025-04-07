@@ -15,7 +15,7 @@ require_once '../php/carregarPerfil.php';
     <main>
         <div class="cajachula">
             <a href="./editarDadesUsuari.php" id="botonEdicion">
-                <p class="text">Editar perfil</p>
+                <p id="p-editar" class="text">Editar perfil</p>
                 <img src="../img/circulo.png" width="30px">
             </a>
             <div id="cajaFotoUsuari">
@@ -29,9 +29,8 @@ require_once '../php/carregarPerfil.php';
             <p class="text">
                 <?php echo (!empty($user['descripcio'])) ? htmlspecialchars($user['descripcio']) : "Descripción no especificada"; ?>
             </p>
-            <p class="text"><strong>Edad:</strong> <?php echo isset($user['edat']) ? htmlspecialchars($user['edat']) : 'No especificada'; ?></p>
-            
-            <?php 
+            <p class="text"><strong>Edad:</strong> <?php echo isset($user['edat']) ? htmlspecialchars((new DateTime())->diff(new DateTime($user['edat']))->y) : 'No especificada';?></p>
+            <?php
                 if (!empty($user["Calle"]) || !empty($user["nomCiutat"])) {
                     echo '<p class="text"><strong>Ubicación:</strong> ' . 
                          (!empty($user["Calle"]) ? htmlspecialchars($user["Calle"]) . ", " : "") . 

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Obtener el nombre del usuario
-        $stmt = $db->prepare("SELECT nomUsari FROM Usuario WHERE IdUsr = :idUsuari");
+        $stmt = $db->prepare("SELECT nomUsuari FROM Usuario WHERE IdUsr = :idUsuari");
         $stmt->bindParam(':idUsuari', $idUsuari, PDO::PARAM_INT);
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $nomUsari = $usuario['nomUsari'];
+        $nomUsuari = $usuario['nomUsuari'];
 
         // Insertar el comentario en la base de datos
         $stmt = $db->prepare("INSERT INTO comentari (idPost, idUsuari, comentari, dataComentari) VALUES (:idPost, :idUsuari, :comentario, NOW())");
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'success' => 'Comentario agregado.',
             'comentario' => $comentario,
-            'nomUsari' => $nomUsari // Incluir el nombre del usuario
+            'nomUsuari' => $nomUsuari // Incluir el nombre del usuario
         ]);
     } catch (PDOException $e) {
         // Capturar errores

@@ -10,13 +10,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home</title>
         <link rel="stylesheet" href="../css/home.css">
+        <link rel="stylesheet" href="../css/nav.css">
     </head>
     <body>
-        <h1 style="color: White;">BENVINGUT <?php echo $_SESSION["username"] ?></h1>
-        <a href="../php/logout.php" class="logout-btn">Logout</a>
-        <a href="./perfil.php" class="logout-btn">Perfil</a>
-        <a href="./feed.php" class="logout-btn">Feed</a>
-
+        <nav class="navbar">
+            <img style="width:70px" src="../img/negro.png"/>
+            <ul class="nav-links">
+                <li><a href="../php/logout.php" class="nav-link">Logout</a></li>
+                <li><a href="../web/home.php" class="active nav-link">Feed</a></li>
+                <li><a href="./perfil.php" class="nav-link">Perfil</a></li>
+            </ul>
+        </nav>
     </body>
 </html>
 <?php
@@ -196,31 +200,33 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if (isset($commentsByPost[$postId])) {
                         foreach ($commentsByPost[$postId] as $comment): ?>
                             <div class="comment">
-                                <strong><?php echo htmlspecialchars($comment['nomUsari']); ?>:</strong>
-                                <?php echo htmlspecialchars($comment['comentari']); ?>
-                                <span class="comment-date"><?php echo date('d/m/Y H:i', strtotime($comment['dataComentari'])); ?></span>
+                                <div class="comment-user">
+                                    <strong><?php echo htmlspecialchars($comment['nomUsuari']); ?></strong>
+                                    <span class="comment-date"><?php echo date('d/m/Y H:i', strtotime($comment['dataComentari'])); ?></span>
 
-                                <!-- Botón de Like para Comentarios -->
-                                <form method="POST" action="../php/posts/like.php" style="display: inline;">
-                                    <input type="hidden" name="tipo" value="comentario">
-                                    <input type="hidden" name="idObjeto" value="<?php echo $comment['idComentari']; ?>">
-                                    <button type="submit" class="like-btn">
-                                        <?php
-                                        $stmt = $db->prepare("SELECT COUNT(*) as totalLikes FROM likeacomentari WHERE idComentari = :idComentari");
-                                        $stmt->bindParam(':idComentari', $comment['idComentari'], PDO::PARAM_INT);
-                                        $stmt->execute();
-                                        $totalLikes = $stmt->fetch(PDO::FETCH_ASSOC)['totalLikes'];
+                                    <!-- Botón de Like para Comentarios -->
+                                    <form method="POST" action="../php/posts/like.php" style="display: inline;">
+                                        <input type="hidden" name="tipo" value="comentario">
+                                        <input type="hidden" name="idObjeto" value="<?php echo $comment['idComentari']; ?>">
+                                        <button type="submit" class="like-btn">
+                                            <?php
+                                            $stmt = $db->prepare("SELECT COUNT(*) as totalLikes FROM likeacomentari WHERE idComentari = :idComentari");
+                                            $stmt->bindParam(':idComentari', $comment['idComentari'], PDO::PARAM_INT);
+                                            $stmt->execute();
+                                            $totalLikes = $stmt->fetch(PDO::FETCH_ASSOC)['totalLikes'];
 
-                                        $stmt = $db->prepare("SELECT * FROM likeacomentari WHERE idComentari = :idComentari AND idUsuari = :idUsuari");
-                                        $stmt->bindParam(':idComentari', $comment['idComentari'], PDO::PARAM_INT);
-                                        $stmt->bindParam(':idUsuari', $_SESSION['user_id'], PDO::PARAM_INT);
-                                        $stmt->execute();
-                                        $liked = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $stmt = $db->prepare("SELECT * FROM likeacomentari WHERE idComentari = :idComentari AND idUsuari = :idUsuari");
+                                            $stmt->bindParam(':idComentari', $comment['idComentari'], PDO::PARAM_INT);
+                                            $stmt->bindParam(':idUsuari', $_SESSION['user_id'], PDO::PARAM_INT);
+                                            $stmt->execute();
+                                            $liked = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                                        echo $liked ? '❤️ Quitar Like (' . $totalLikes . ')' : '🤍 Dar Like (' . $totalLikes . ')';
-                                        ?>
-                                    </button>
-                                </form>
+                                            echo $liked ? '❤️ Quitar Like (' . $totalLikes . ')' : '🤍 Dar Like (' . $totalLikes . ')';
+                                            ?>
+                                        </button>
+                                    </form>
+                                </div>
+                                <span class="comment-description" style="overflow: hidden; text-overflow: ellipsis;"><?php echo htmlspecialchars($comment['comentari']); ?></span>
                             </div>
                         <?php endforeach;
                     } else {
@@ -230,9 +236,8 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="comment-form" data-postid="<?php echo $post['idPost']; ?>">
                     <form>
-                        <input type="text" name="comentario" placeholder="Escribe un comentario..." required>
-                        <button type="submit">Comentar</button>
-                        <button type="submit">Enviar</button>
+                        <input id="comment-input" type="text" name="comentario" placeholder="Escribe un comentario..." required>
+                        <button class="like-btn" type="submit">Comentar</button>
                     </form>
                 </div>
             </div>

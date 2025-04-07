@@ -13,7 +13,7 @@ else{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Inicio de Sesion</title>
     <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
@@ -21,17 +21,17 @@ else{
         <img src="./img/blanco.png" alt="logo carNation">
         <form action="./php/login.php" method="post">
             <div class="form-group">
-                <label for="username">Usuari / Email</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username or email" required>
+                <label for="username">Usuario / Correo</label>
+                <input type="text" id="username" name="username" placeholder="Escribe tu nombre o correo" required>
             </div>
             <div class="form-group">
-                <label for="password">Contrasenya</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Escribe tu contraseña" required>
             </div>
             <button type="submit" class="login-btn">Login</button>
         </form>
         <div class="secondary-section">
-            No tens una compta encara? <a href="./web/register.php">Sign Up</a><br>
+            No tienes cuenta todavia? <a href="./web/register.php">Registrate</a><br>
             <p><a href="./web/cambiarContrasena.php">¿Has olvidado tu contraseña?</a></p>
             <br>
             <?php

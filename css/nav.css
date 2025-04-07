@@ -1,0 +1,77 @@
+/* Menú de navegación en formato horizontal */
+.navbar {
+    display: flex;
+    flex-direction: row; /* Cambio a dirección horizontal */
+    justify-content: space-between; /* Distribuir los elementos entre ellos */
+    align-items: center; /* Alineación vertical centrada */
+    padding: 20px;
+    background-color:rgba(255, 255, 255, 0.5);
+    border-bottom: 2px solid #4CAF50; /* Borde verde en la parte inferior */
+}
+
+.navbar h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 0; /* Eliminamos el margen inferior */
+    font-size: 24px;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row; /* Los enlaces estarán en fila */
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    list-style-type: none;
+    margin: 0 15px; /* Espaciado entre los elementos */
+}
+
+
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin:0;
+}
+
+.nav-link:hover {
+    background-color: #45a049; /* Fondo verde cuando el ratón pasa sobre el enlace */
+}
+.active{
+    background-color: #3f7942;
+}
+@media (max-width: 768px) {
+    .navbar h1 {
+        font-size: 20px;
+    }
+
+    .nav-link {
+        font-size: 16px;
+    }
+
+    .nav-links {
+        flex-direction: column; /* En pantallas más pequeñas, los enlaces se apilan */
+    }
+
+    .nav-links li {
+        margin: 10px 0; /* Ajustamos el margen entre los elementos cuando están en columna */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar h1 {
+        font-size: 18px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+}

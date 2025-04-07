@@ -7,13 +7,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     margin: 0;
     padding:0;
+    justify-content: center;
 }
 
 h1 {
-    color: white;
+    text-align: center;
     margin-bottom: 20px;
 }
 
@@ -47,14 +47,31 @@ h1 {
     text-align: left;
 }
 
+#cajaFotoUsuari {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#fotoPerfilPreview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
 .text {
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 input[type="text"],
+input[type="email"],
+input[type="date"],
 textarea,
-input[type="file"] {
+select,
+option {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -62,11 +79,39 @@ input[type="file"] {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
+    margin-bottom: 15px;
+}
+
+#btn-salir {
+    position: absolute;
+    align-self: flex-start;
+    margin-bottom: 20px;
+    width: 100px;
+}
+#btn-salir a{
+    text-decoration: none;
+    color: white;
 }
 
 textarea {
     resize: vertical;
     height: 100px;
+}
+
+.select2-results__option {
+    background-color:rgba(0, 0, 0, 0.8);
+    color: white;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    background-color:rgba(0, 0, 0, 0.8);
+    color: white;
+}
+span{
+    margin-bottom: 10px;
+}
+
+.select2-results__option:hover {
+    background-color: #45a049;
 }
 
 button.logout-btn {
