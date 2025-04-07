@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':idUsuari', $idUsuari, PDO::PARAM_INT);
             $stmt->execute();
 
-            header("Location: ../../web/feed.php"); // Redirigir al usuario
+            header("Location: ../../web/home.php"); // Redirigir al usuario
             exit;
         } else {
             // Dar like
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':idUsuari', $idUsuari, PDO::PARAM_INT);
             $stmt->execute();
 
-            header("Location: ../../web/feed.php"); // Redirigir al usuario
+            header("Location: ../../web/home.php"); // Redirigir al usuario
             exit;
         }
     } catch (PDOException $e) {

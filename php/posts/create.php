@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $db->commit();
 
-        header("Location: ../../web/feed.php?success=Post publicado correctamente.");
+        header("Location: ../../web/home.php?success=Post publicado correctamente.");
         exit;
     } catch (PDOException $e) {
         $db->rollBack();

@@ -1,7 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url("../img/fondoLogin.jpg");
-    background-repeat: no-repeat;
+    background: url('../img/Dark-Car-Names-scaled.webp') no-repeat center center fixed;
     background-size: cover;
     background-color: #000000;
     color: white;
